@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzz.mapper.FWProductMapper" >
+  <resultMap id="BaseResultMap" type="com.lzz.entity.Product" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="customername" property="customername" jdbcType="VARCHAR" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="customerorderno" property="customerorderno" jdbcType="BIGINT" />
+    <result column="addressee" property="addressee" jdbcType="VARCHAR" />
+    <result column="dearcustomer" property="dearcustomer" jdbcType="VARCHAR" />
+    <result column="orderdate" property="orderdate" jdbcType="DATE" />
+    <result column="deliverydate" property="deliverydate" jdbcType="DATE" />
+    <result column="status" property="status" jdbcType="BIGINT" />
+    <result column="customerremarks" property="customerremarks" jdbcType="VARCHAR" />
+    <result column="myordersheet" property="myordersheet" jdbcType="BIGINT" />
+    <result column="purchasehistory" property="purchasehistory" jdbcType="BIGINT" />
+    <result column="productcode" property="productcode" jdbcType="BIGINT" />
+    <result column="itemname" property="itemname" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="BIGINT" />
+    <result column="numberoforders" property="numberoforders" jdbcType="BIGINT" />
+    <result column="totalnumber" property="totalnumber" jdbcType="BIGINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="expectedarrivaldatel" property="expectedarrivaldatel" jdbcType="DATE" />
+    <result column="deliverynoteattention" property="deliverynoteattention" jdbcType="VARCHAR" />
+    <result column="lastorderdate" property="lastorderdate" jdbcType="DATE" />
+    <result column="lastordernumber" property="lastordernumber" jdbcType="BIGINT" />
+    <result column="shipdate" property="shipdate" jdbcType="DATE" />
+    <result column="arrivaldate" property="arrivaldate" jdbcType="DATE" />
+    <result column="productdeliverytime" property="productdeliverytime" jdbcType="DATE" />
+    <result column="custnumber" property="custnumber" jdbcType="BIGINT" />
+    <result column="totalfee" property="totalfee" jdbcType="DOUBLE" />
+    <result column="unitprice" property="unitprice" jdbcType="DOUBLE" />
+    <result column="amountofmoney" property="amountofmoney" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, customername, suppliername, customerorderno, addressee, dearcustomer, orderdate, 
+    deliverydate, status, customerremarks, myordersheet, purchasehistory, productcode, 
+    itemname, quantity, numberoforders, totalnumber, remarks, expectedarrivaldatel, deliverynoteattention, 
+    lastorderdate, lastordernumber, shipdate, arrivaldate, productdeliverytime, custnumber, 
+    totalfee, unitprice, amountofmoney
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lzz.entity.ProductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from product
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lzz.entity.ProductExample" >
+    delete from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lzz.entity.Product" >
+    insert into product (id, customername, suppliername, 
+      customerorderno, addressee, dearcustomer, 
+      orderdate, deliverydate, status, 
+      customerremarks, myordersheet, purchasehistory, 
+      productcode, itemname, quantity, 
+      numberoforders, totalnumber, remarks, 
+      expectedarrivaldatel, deliverynoteattention, 
+      lastorderdate, lastordernumber, shipdate, 
+      arrivaldate, productdeliverytime, custnumber, 
+      totalfee, unitprice, amountofmoney
+      )
+    values (#{id,jdbcType=BIGINT}, #{customername,jdbcType=VARCHAR}, #{suppliername,jdbcType=VARCHAR}, 
+      #{customerorderno,jdbcType=BIGINT}, #{addressee,jdbcType=VARCHAR}, #{dearcustomer,jdbcType=VARCHAR}, 
+      #{orderdate,jdbcType=DATE}, #{deliverydate,jdbcType=DATE}, #{status,jdbcType=BIGINT}, 
+      #{customerremarks,jdbcType=VARCHAR}, #{myordersheet,jdbcType=BIGINT}, #{purchasehistory,jdbcType=BIGINT}, 
+      #{productcode,jdbcType=BIGINT}, #{itemname,jdbcType=VARCHAR}, #{quantity,jdbcType=BIGINT}, 
+      #{numberoforders,jdbcType=BIGINT}, #{totalnumber,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, 
+      #{expectedarrivaldatel,jdbcType=DATE}, #{deliverynoteattention,jdbcType=VARCHAR}, 
+      #{lastorderdate,jdbcType=DATE}, #{lastordernumber,jdbcType=BIGINT}, #{shipdate,jdbcType=DATE}, 
+      #{arrivaldate,jdbcType=DATE}, #{productdeliverytime,jdbcType=DATE}, #{custnumber,jdbcType=BIGINT}, 
+      #{totalfee,jdbcType=DOUBLE}, #{unitprice,jdbcType=DOUBLE}, #{amountofmoney,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lzz.entity.Product" >
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customername != null" >
+        customername,
+      </if>
+      <if test="suppliername != null" >
+        suppliername,
+      </if>
+      <if test="customerorderno != null" >
+        customerorderno,
+      </if>
+      <if test="addressee != null" >
+        addressee,
+      </if>
+      <if test="dearcustomer != null" >
+        dearcustomer,
+      </if>
+      <if test="orderdate != null" >
+        orderdate,
+      </if>
+      <if test="deliverydate != null" >
+        deliverydate,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="customerremarks != null" >
+        customerremarks,
+      </if>
+      <if test="myordersheet != null" >
+        myordersheet,
+      </if>
+      <if test="purchasehistory != null" >
+        purchasehistory,
+      </if>
+      <if test="productcode != null" >
+        productcode,
+      </if>
+      <if test="itemname != null" >
+        itemname,
+      </if>
+      <if test="quantity != null" >
+        quantity,
+      </if>
+      <if test="numberoforders != null" >
+        numberoforders,
+      </if>
+      <if test="totalnumber != null" >
+        totalnumber,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="expectedarrivaldatel != null" >
+        expectedarrivaldatel,
+      </if>
+      <if test="deliverynoteattention != null" >
+        deliverynoteattention,
+      </if>
+      <if test="lastorderdate != null" >
+        lastorderdate,
+      </if>
+      <if test="lastordernumber != null" >
+        lastordernumber,
+      </if>
+      <if test="shipdate != null" >
+        shipdate,
+      </if>
+      <if test="arrivaldate != null" >
+        arrivaldate,
+      </if>
+      <if test="productdeliverytime != null" >
+        productdeliverytime,
+      </if>
+      <if test="custnumber != null" >
+        custnumber,
+      </if>
+      <if test="totalfee != null" >
+        totalfee,
+      </if>
+      <if test="unitprice != null" >
+        unitprice,
+      </if>
+      <if test="amountofmoney != null" >
+        amountofmoney,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="customerorderno != null" >
+        #{customerorderno,jdbcType=BIGINT},
+      </if>
+      <if test="addressee != null" >
+        #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="dearcustomer != null" >
+        #{dearcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=DATE},
+      </if>
+      <if test="deliverydate != null" >
+        #{deliverydate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIGINT},
+      </if>
+      <if test="customerremarks != null" >
+        #{customerremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="myordersheet != null" >
+        #{myordersheet,jdbcType=BIGINT},
+      </if>
+      <if test="purchasehistory != null" >
+        #{purchasehistory,jdbcType=BIGINT},
+      </if>
+      <if test="productcode != null" >
+        #{productcode,jdbcType=BIGINT},
+      </if>
+      <if test="itemname != null" >
+        #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="numberoforders != null" >
+        #{numberoforders,jdbcType=BIGINT},
+      </if>
+      <if test="totalnumber != null" >
+        #{totalnumber,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedarrivaldatel != null" >
+        #{expectedarrivaldatel,jdbcType=DATE},
+      </if>
+      <if test="deliverynoteattention != null" >
+        #{deliverynoteattention,jdbcType=VARCHAR},
+      </if>
+      <if test="lastorderdate != null" >
+        #{lastorderdate,jdbcType=DATE},
+      </if>
+      <if test="lastordernumber != null" >
+        #{lastordernumber,jdbcType=BIGINT},
+      </if>
+      <if test="shipdate != null" >
+        #{shipdate,jdbcType=DATE},
+      </if>
+      <if test="arrivaldate != null" >
+        #{arrivaldate,jdbcType=DATE},
+      </if>
+      <if test="productdeliverytime != null" >
+        #{productdeliverytime,jdbcType=DATE},
+      </if>
+      <if test="custnumber != null" >
+        #{custnumber,jdbcType=BIGINT},
+      </if>
+      <if test="totalfee != null" >
+        #{totalfee,jdbcType=DOUBLE},
+      </if>
+      <if test="unitprice != null" >
+        #{unitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="amountofmoney != null" >
+        #{amountofmoney,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lzz.entity.ProductExample" resultType="java.lang.Integer" >
+    select count(*) from product
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.customername != null" >
+        customername = #{record.customername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.suppliername != null" >
+        suppliername = #{record.suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerorderno != null" >
+        customerorderno = #{record.customerorderno,jdbcType=BIGINT},
+      </if>
+      <if test="record.addressee != null" >
+        addressee = #{record.addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dearcustomer != null" >
+        dearcustomer = #{record.dearcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderdate != null" >
+        orderdate = #{record.orderdate,jdbcType=DATE},
+      </if>
+      <if test="record.deliverydate != null" >
+        deliverydate = #{record.deliverydate,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerremarks != null" >
+        customerremarks = #{record.customerremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.myordersheet != null" >
+        myordersheet = #{record.myordersheet,jdbcType=BIGINT},
+      </if>
+      <if test="record.purchasehistory != null" >
+        purchasehistory = #{record.purchasehistory,jdbcType=BIGINT},
+      </if>
+      <if test="record.productcode != null" >
+        productcode = #{record.productcode,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemname != null" >
+        itemname = #{record.itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.quantity != null" >
+        quantity = #{record.quantity,jdbcType=BIGINT},
+      </if>
+      <if test="record.numberoforders != null" >
+        numberoforders = #{record.numberoforders,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalnumber != null" >
+        totalnumber = #{record.totalnumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expectedarrivaldatel != null" >
+        expectedarrivaldatel = #{record.expectedarrivaldatel,jdbcType=DATE},
+      </if>
+      <if test="record.deliverynoteattention != null" >
+        deliverynoteattention = #{record.deliverynoteattention,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastorderdate != null" >
+        lastorderdate = #{record.lastorderdate,jdbcType=DATE},
+      </if>
+      <if test="record.lastordernumber != null" >
+        lastordernumber = #{record.lastordernumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.shipdate != null" >
+        shipdate = #{record.shipdate,jdbcType=DATE},
+      </if>
+      <if test="record.arrivaldate != null" >
+        arrivaldate = #{record.arrivaldate,jdbcType=DATE},
+      </if>
+      <if test="record.productdeliverytime != null" >
+        productdeliverytime = #{record.productdeliverytime,jdbcType=DATE},
+      </if>
+      <if test="record.custnumber != null" >
+        custnumber = #{record.custnumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalfee != null" >
+        totalfee = #{record.totalfee,jdbcType=DOUBLE},
+      </if>
+      <if test="record.unitprice != null" >
+        unitprice = #{record.unitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.amountofmoney != null" >
+        amountofmoney = #{record.amountofmoney,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product
+    set id = #{record.id,jdbcType=BIGINT},
+      customername = #{record.customername,jdbcType=VARCHAR},
+      suppliername = #{record.suppliername,jdbcType=VARCHAR},
+      customerorderno = #{record.customerorderno,jdbcType=BIGINT},
+      addressee = #{record.addressee,jdbcType=VARCHAR},
+      dearcustomer = #{record.dearcustomer,jdbcType=VARCHAR},
+      orderdate = #{record.orderdate,jdbcType=DATE},
+      deliverydate = #{record.deliverydate,jdbcType=DATE},
+      status = #{record.status,jdbcType=BIGINT},
+      customerremarks = #{record.customerremarks,jdbcType=VARCHAR},
+      myordersheet = #{record.myordersheet,jdbcType=BIGINT},
+      purchasehistory = #{record.purchasehistory,jdbcType=BIGINT},
+      productcode = #{record.productcode,jdbcType=BIGINT},
+      itemname = #{record.itemname,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=BIGINT},
+      numberoforders = #{record.numberoforders,jdbcType=BIGINT},
+      totalnumber = #{record.totalnumber,jdbcType=BIGINT},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      expectedarrivaldatel = #{record.expectedarrivaldatel,jdbcType=DATE},
+      deliverynoteattention = #{record.deliverynoteattention,jdbcType=VARCHAR},
+      lastorderdate = #{record.lastorderdate,jdbcType=DATE},
+      lastordernumber = #{record.lastordernumber,jdbcType=BIGINT},
+      shipdate = #{record.shipdate,jdbcType=DATE},
+      arrivaldate = #{record.arrivaldate,jdbcType=DATE},
+      productdeliverytime = #{record.productdeliverytime,jdbcType=DATE},
+      custnumber = #{record.custnumber,jdbcType=BIGINT},
+      totalfee = #{record.totalfee,jdbcType=DOUBLE},
+      unitprice = #{record.unitprice,jdbcType=DOUBLE},
+      amountofmoney = #{record.amountofmoney,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzz.entity.Product" >
+    update product
+    <set >
+      <if test="customername != null" >
+        customername = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="suppliername != null" >
+        suppliername = #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="customerorderno != null" >
+        customerorderno = #{customerorderno,jdbcType=BIGINT},
+      </if>
+      <if test="addressee != null" >
+        addressee = #{addressee,jdbcType=VARCHAR},
+      </if>
+      <if test="dearcustomer != null" >
+        dearcustomer = #{dearcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdate != null" >
+        orderdate = #{orderdate,jdbcType=DATE},
+      </if>
+      <if test="deliverydate != null" >
+        deliverydate = #{deliverydate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIGINT},
+      </if>
+      <if test="customerremarks != null" >
+        customerremarks = #{customerremarks,jdbcType=VARCHAR},
+      </if>
+      <if test="myordersheet != null" >
+        myordersheet = #{myordersheet,jdbcType=BIGINT},
+      </if>
+      <if test="purchasehistory != null" >
+        purchasehistory = #{purchasehistory,jdbcType=BIGINT},
+      </if>
+      <if test="productcode != null" >
+        productcode = #{productcode,jdbcType=BIGINT},
+      </if>
+      <if test="itemname != null" >
+        itemname = #{itemname,jdbcType=VARCHAR},
+      </if>
+      <if test="quantity != null" >
+        quantity = #{quantity,jdbcType=BIGINT},
+      </if>
+      <if test="numberoforders != null" >
+        numberoforders = #{numberoforders,jdbcType=BIGINT},
+      </if>
+      <if test="totalnumber != null" >
+        totalnumber = #{totalnumber,jdbcType=BIGINT},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedarrivaldatel != null" >
+        expectedarrivaldatel = #{expectedarrivaldatel,jdbcType=DATE},
+      </if>
+      <if test="deliverynoteattention != null" >
+        deliverynoteattention = #{deliverynoteattention,jdbcType=VARCHAR},
+      </if>
+      <if test="lastorderdate != null" >
+        lastorderdate = #{lastorderdate,jdbcType=DATE},
+      </if>
+      <if test="lastordernumber != null" >
+        lastordernumber = #{lastordernumber,jdbcType=BIGINT},
+      </if>
+      <if test="shipdate != null" >
+        shipdate = #{shipdate,jdbcType=DATE},
+      </if>
+      <if test="arrivaldate != null" >
+        arrivaldate = #{arrivaldate,jdbcType=DATE},
+      </if>
+      <if test="productdeliverytime != null" >
+        productdeliverytime = #{productdeliverytime,jdbcType=DATE},
+      </if>
+      <if test="custnumber != null" >
+        custnumber = #{custnumber,jdbcType=BIGINT},
+      </if>
+      <if test="totalfee != null" >
+        totalfee = #{totalfee,jdbcType=DOUBLE},
+      </if>
+      <if test="unitprice != null" >
+        unitprice = #{unitprice,jdbcType=DOUBLE},
+      </if>
+      <if test="amountofmoney != null" >
+        amountofmoney = #{amountofmoney,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzz.entity.Product" >
+    update product
+    set customername = #{customername,jdbcType=VARCHAR},
+      suppliername = #{suppliername,jdbcType=VARCHAR},
+      customerorderno = #{customerorderno,jdbcType=BIGINT},
+      addressee = #{addressee,jdbcType=VARCHAR},
+      dearcustomer = #{dearcustomer,jdbcType=VARCHAR},
+      orderdate = #{orderdate,jdbcType=DATE},
+      deliverydate = #{deliverydate,jdbcType=DATE},
+      status = #{status,jdbcType=BIGINT},
+      customerremarks = #{customerremarks,jdbcType=VARCHAR},
+      myordersheet = #{myordersheet,jdbcType=BIGINT},
+      purchasehistory = #{purchasehistory,jdbcType=BIGINT},
+      productcode = #{productcode,jdbcType=BIGINT},
+      itemname = #{itemname,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=BIGINT},
+      numberoforders = #{numberoforders,jdbcType=BIGINT},
+      totalnumber = #{totalnumber,jdbcType=BIGINT},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      expectedarrivaldatel = #{expectedarrivaldatel,jdbcType=DATE},
+      deliverynoteattention = #{deliverynoteattention,jdbcType=VARCHAR},
+      lastorderdate = #{lastorderdate,jdbcType=DATE},
+      lastordernumber = #{lastordernumber,jdbcType=BIGINT},
+      shipdate = #{shipdate,jdbcType=DATE},
+      arrivaldate = #{arrivaldate,jdbcType=DATE},
+      productdeliverytime = #{productdeliverytime,jdbcType=DATE},
+      custnumber = #{custnumber,jdbcType=BIGINT},
+      totalfee = #{totalfee,jdbcType=DOUBLE},
+      unitprice = #{unitprice,jdbcType=DOUBLE},
+      amountofmoney = #{amountofmoney,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

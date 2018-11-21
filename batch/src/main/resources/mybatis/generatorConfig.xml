@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry
+            location="/home/wanghaoqi/.m2/repository/org/postgresql/postgresql/9.4.1212/postgresql-9.4.1212.jar"/>
+    <context id="my" targetRuntime="MyBatis3">
+      <property name="beginningDelimiter" value="&quot;"/>
+      <property name="endingDelimiter" value="&quot;"/>
+      <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+      <commentGenerator>
+        <property name="suppressAllComments" value="true" />
+      </commentGenerator>
+
+        <jdbcConnection driverClass="org.postgresql.Driver"
+                        connectionURL="jdbc:postgresql://ec2-54-163-246-193.compute-1.amazonaws.com:5432/d2ptem27jc6v9p?user=vhbnxvmbcckvaj&amp;password=86e6f68d3e7bb7ec699d515f119ac41a6ad04c02b771f2017e37482215df0867&amp;sslmode=require" />
+
+        <javaModelGenerator targetPackage="com.lzz.entity"
+                            targetProject="src/main/java/">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+      <sqlMapGenerator targetPackage="mybatis.mapper"
+                       targetProject="src/main/resources/">
+        <property name="enableSubPackages" value="false" />
+      </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="com.lzz.mapper"
+                             targetProject="src/main/java/" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table schema="public" tableName="%" >
+
+          <columnOverride column="first" javaType="String[]" jdbcType="OTHER" typeHandler="com.manniwood.mmpt.typehandlers.TextArrayTypeHandler" />
+          <columnOverride column="second" javaType="String" jdbcType="OTHER" typeHandler="com.manniwood.mmpt.typehandlers.JSONTypeHandler"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzz.mapper.CYD000001OrderRepository">
+
+<select id="findCustomername" resultType="java.util.HashMap">
+	select distinct customername, custnumber
+	from product
+	order by custnumber
+</select>
+
+<select id="findSuppliernameByfindCustomer" parameterType="java.lang.Long" resultType="java.lang.String">
+	select distinct suppliername
+	from product
+	where custnumber = #{custnumber}
+</select>
+
+<select id="findProducts" parameterType="com.lzz.model.CYD000001Order" resultType="java.util.HashMap">
+	select
+	    customername,
+	    custnumber,
+	    suppliername,
+	    customerorderno,
+	    addressee,
+	    dearcustomer,
+	    orderdate,
+	    deliverydate,
+	    totalfee,
+	    status,
+	    customerremarks,
+	    myordersheet,
+	    purchasehistory,
+	    productcode,
+	    itemname,
+	    quantity,
+	    numberoforders,
+	    totalnumber,
+	    unitprice,
+	    amountofmoney,
+	    remarks,
+	    expectedarrivaldatel,
+	    deliverynoteattention,
+	    lastorderdate,
+	    lastordernumber,
+	    shipdate,
+	    arrivaldate,
+	    productdeliverytime
+	from product
+	where custnumber = #{custnumber}
+	and suppliername = #{suppliername}
+</select>
+
+<select id="customerordernoCount" parameterType="com.lzz.model.CYD000001Order" resultType="java.lang.Integer">
+	select
+	    count(1)
+	from product
+	where customerorderno = #{customerorderno}
+</select>
+
+<insert id="insertOrder" parameterType="java.util.List">
+insert into product
+    values
+    <foreach collection="list" item="item" index="index" open="(" separator=","  close=")">
+      1,
+      <if test="item.customername != null and item.customername != ''">
+      #{item.customername}
+      </if>
+      <if test="item.suppliername != null and item.suppliername != ''">
+      ,#{item.suppliername}
+      </if>
+      <if test="item.customerorderno != null and item.customerorderno != ''">
+      ,#{item.customerorderno}
+      </if>
+      <if test="item.addressee != null and item.addressee != ''">
+      ,#{item.addressee}
+      </if>
+      <if test="item.dearcustomer != null and item.dearcustomer != ''">
+      ,#{item.dearcustomer}
+      </if>
+      <if test="item.orderdate != null">
+      ,date(#{item.orderdate})
+      </if>
+      <if test="item.deliverydate != null">
+      ,date(#{item.deliverydate})
+      </if>
+      <if test="item.totalfee != null and item.totalfee != ''">
+      ,#{item.totalfee}
+      </if>
+      <if test="item.status != null and item.status != ''">
+      ,#{item.status}
+      </if>
+      <if test="item.customerremarks != null and item.customerremarks != ''">
+      ,#{item.customerremarks}
+      </if>
+      <if test="item.myordersheet != null and item.myordersheet != ''">
+      ,#{item.myordersheet}
+      </if>
+      <if test="item.purchasehistory != null and item.purchasehistory != ''">
+      ,#{item.purchasehistory}
+      </if>
+      <if test="item.productcode != null and item.productcode != ''">
+      ,#{item.productcode}
+      </if>
+      <if test="item.itemname != null and item.itemname != ''">
+      ,#{item.itemname}
+      </if>
+      <if test="item.quantity != null and item.quantity != ''">
+      ,#{item.quantity}
+      </if>
+      <if test="item.numberoforders != null and item.numberoforders != ''">
+      ,#{item.numberoforders}
+      </if>
+      <if test="item.totalnumber != null and item.totalnumber != ''">
+      ,#{item.totalnumber}
+      </if>
+      <if test="item.unitprice != null and item.unitprice != ''">
+      ,#{item.unitprice}
+      </if>
+      <if test="item.amountofmoney != null and item.amountofmoney != ''">
+      ,#{item.amountofmoney}
+      </if>
+      <if test="item.remarks != null and item.remarks != ''">
+      ,#{item.remarks}
+      </if>
+      <if test="item.expectedarrivaldatel != null">
+      ,date(#{item.expectedarrivaldatel})
+      </if>
+      <if test="item.deliverynoteattention != null and item.deliverynoteattention != ''">
+      ,#{item.deliverynoteattention}
+      </if>
+      <if test="item.lastorderdate != null">
+      ,date(#{item.lastorderdate})
+      </if>
+      <if test="item.lastordernumber != null and item.lastordernumber != ''">
+      ,#{item.lastordernumber}
+      </if>
+      <if test="item.shipdate != null">
+      ,date(#{item.shipdate})
+      </if>
+      <if test="item.arrivaldate != null">
+      ,date(#{item.arrivaldate})
+      </if>
+      <if test="item.productdeliverytime != null">
+      ,date(#{item.productdeliverytime})
+      </if>
+    </foreach>
+</insert>
+<update id="updataOrder" parameterType="com.lzz.model.CYD000001Order">
+	update product set
+      <if test="customerorderno != null and customerorderno != ''">
+      customerorderno = #{customerorderno}
+      </if>
+      <if test="orderdate != null">
+      ,orderdate = date(#{orderdate})
+      </if>
+      <if test="deliverydate != null">
+      ,deliverydate = date(#{deliverydate})
+      </if>
+      <if test="totalfee != null and totalfee != ''">
+      ,totalfee = #{totalfee}
+      </if>
+      <if test="status != null and status != ''">
+      ,status = #{status}
+      </if>
+      <if test="customerremarks != null and customerremarks != ''">
+      ,customerremarks = #{customerremarks}
+      </if>
+      <if test="numberoforders != null and numberoforders != ''">
+      ,numberoforders = #{numberoforders}
+      </if>
+      <if test="totalnumber != null and totalnumber != ''">
+      ,totalnumber = #{totalnumber}
+      </if>
+      <if test="unitprice != null and unitprice != ''">
+      ,unitprice = #{unitprice}
+      </if>
+      <if test="amountofmoney != null and amountofmoney != ''">
+      ,amountofmoney = #{amountofmoney}
+      </if>
+      <if test="remarks != null and remarks != ''">
+      ,remarks = #{remarks}
+      </if>
+      <if test="expectedarrivaldatel != null">
+      ,expectedarrivaldatel = date(#{expectedarrivaldatel})
+      </if>
+      <if test="deliverynoteattention != null and deliverynoteattention != ''">
+      ,deliverynoteattention = #{deliverynoteattention}
+      </if>
+      <if test="lastorderdate != null">
+      ,lastorderdate = date(#{lastorderdate})
+      </if>
+      <if test="shipdate != null">
+      ,shipdate = date(#{shipdate})
+      </if>
+      <if test="arrivaldate != null">
+      ,arrivaldate = date(#{arrivaldate})
+      </if>
+      <if test="productdeliverytime != null">
+      ,productdeliverytime = date(#{productdeliverytime})
+      </if>
+  <where>
+  	productcode = #{productcode}
+  </where>
+</update>
+</mapper>

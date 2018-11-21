@@ -1,0 +1,5 @@
+.idea
+.project
+.settings
+.classpath
+*.iml

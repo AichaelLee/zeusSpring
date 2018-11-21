@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzz.mapper.CYD000002OrderListRepository">
+
+<select id="findCustomername">
+	select distinct customername
+	from order
+</select>
+<select id="findDearcustomer">
+	select distinct dearcustomer
+	from order
+</select>
+<select id="findDetailByCondition" parameterType="com.lzz.model.CYD000002OrderList" resultType="com.lzz.model.CYD000002OrderList">
+	select
+		id,
+		orderdate,
+		time,
+		deliverydate,
+		totalfee,
+		orderstatus,
+		customernumber,
+		customername,
+		deliverydestinationcode,
+		suppliername,
+		dearcustomer,
+		customtower,
+		orderno
+	from order
+	<where>
+		<if test="orderno != null and orderno != ''">
+			orderno = #{orderno}
+		</if>
+		<if test="orderdate != null and orderdate != ''">
+		    <![CDATA[   and DATE_FORMAT(orderdate, '%Y-%m-%d')>=  DATE_FORMAT(#{orderdate}, '%Y-%m-%d')   ]]>
+		</if>
+		<if test="orderdateEnd != null and orderdateEnd != ''">
+		    <![CDATA[  and DATE_FORMAT(orderdate, '%Y-%m-%d') <= DATE_FORMAT(#{orderdateEnd}, '%Y-%m-%d')    ]]>
+		</if>
+		<if test="orderstatusArr != null">
+		    and orderstatus in
+		    <foreach item="item" index="index" collection="orderstatusArr" open="("     separator="," close=")">
+		    #{orderstatusArr}
+		    </foreach>
+		</if>
+		<if test="customernameArr != null">
+		    and customername in
+		    <foreach item="item" index="index" collection="customernameArr" open="("     separator="," close=")">
+		    #{customernameArr}
+		    </foreach>
+		</if>
+		<if test="suppliername != null and suppliername != ''">
+			and suppliername = #{suppliername}
+		</if>
+		<if test="dearcustomerArr != null">
+		    and dearcustomer in
+		    <foreach item="item" index="index" collection="dearcustomerArr" open="("     separator="," close=")">
+		    #{dearcustomerArr}
+		    </foreach>
+		</if>
+	</where>
+</select>
+</mapper>

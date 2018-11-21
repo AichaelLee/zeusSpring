@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzz.mapper.FWOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.lzz.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="orderdate" property="orderdate" jdbcType="DATE" />
+    <result column="times" property="times" jdbcType="TIMESTAMP" />
+    <result column="deliverydate" property="deliverydate" jdbcType="DATE" />
+    <result column="orderstatus" property="orderstatus" jdbcType="BIGINT" />
+    <result column="customernumber" property="customernumber" jdbcType="BIGINT" />
+    <result column="customername" property="customername" jdbcType="VARCHAR" />
+    <result column="deliverydestinationcode" property="deliverydestinationcode" jdbcType="BIGINT" />
+    <result column="suppliername" property="suppliername" jdbcType="VARCHAR" />
+    <result column="dearcustomer" property="dearcustomer" jdbcType="VARCHAR" />
+    <result column="customtower" property="customtower" jdbcType="BIGINT" />
+    <result column="orderno" property="orderno" jdbcType="BIGINT" />
+    <result column="totalfee" property="totalfee" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orderdate, times, deliverydate, orderstatus, customernumber, customername, deliverydestinationcode, 
+    suppliername, dearcustomer, customtower, orderno, totalfee
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lzz.entity.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lzz.entity.OrderExample" >
+    delete from order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lzz.entity.Order" >
+    insert into order (id, orderdate, times,
+      deliverydate, orderstatus, customernumber, 
+      customername, deliverydestinationcode, suppliername, 
+      dearcustomer, customtower, orderno, 
+      totalfee)
+    values (#{id,jdbcType=BIGINT}, #{orderdate,jdbcType=DATE}, #{times,jdbcType=TIMESTAMP}, 
+      #{deliverydate,jdbcType=DATE}, #{orderstatus,jdbcType=BIGINT}, #{customernumber,jdbcType=BIGINT}, 
+      #{customername,jdbcType=VARCHAR}, #{deliverydestinationcode,jdbcType=BIGINT}, #{suppliername,jdbcType=VARCHAR}, 
+      #{dearcustomer,jdbcType=VARCHAR}, #{customtower,jdbcType=BIGINT}, #{orderno,jdbcType=BIGINT}, 
+      #{totalfee,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lzz.entity.Order" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderdate != null" >
+        orderdate,
+      </if>
+      <if test="times != null" >
+        times,
+      </if>
+      <if test="deliverydate != null" >
+        deliverydate,
+      </if>
+      <if test="orderstatus != null" >
+        orderstatus,
+      </if>
+      <if test="customernumber != null" >
+        customernumber,
+      </if>
+      <if test="customername != null" >
+        customername,
+      </if>
+      <if test="deliverydestinationcode != null" >
+        deliverydestinationcode,
+      </if>
+      <if test="suppliername != null" >
+        suppliername,
+      </if>
+      <if test="dearcustomer != null" >
+        dearcustomer,
+      </if>
+      <if test="customtower != null" >
+        customtower,
+      </if>
+      <if test="orderno != null" >
+        orderno,
+      </if>
+      <if test="totalfee != null" >
+        totalfee,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=DATE},
+      </if>
+      <if test="times != null" >
+        #{times,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverydate != null" >
+        #{deliverydate,jdbcType=DATE},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=BIGINT},
+      </if>
+      <if test="customernumber != null" >
+        #{customernumber,jdbcType=BIGINT},
+      </if>
+      <if test="customername != null" >
+        #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverydestinationcode != null" >
+        #{deliverydestinationcode,jdbcType=BIGINT},
+      </if>
+      <if test="suppliername != null" >
+        #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="dearcustomer != null" >
+        #{dearcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="customtower != null" >
+        #{customtower,jdbcType=BIGINT},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=BIGINT},
+      </if>
+      <if test="totalfee != null" >
+        #{totalfee,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lzz.entity.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderdate != null" >
+        orderdate = #{record.orderdate,jdbcType=DATE},
+      </if>
+      <if test="record.times != null" >
+        times = #{record.times,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliverydate != null" >
+        deliverydate = #{record.deliverydate,jdbcType=DATE},
+      </if>
+      <if test="record.orderstatus != null" >
+        orderstatus = #{record.orderstatus,jdbcType=BIGINT},
+      </if>
+      <if test="record.customernumber != null" >
+        customernumber = #{record.customernumber,jdbcType=BIGINT},
+      </if>
+      <if test="record.customername != null" >
+        customername = #{record.customername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliverydestinationcode != null" >
+        deliverydestinationcode = #{record.deliverydestinationcode,jdbcType=BIGINT},
+      </if>
+      <if test="record.suppliername != null" >
+        suppliername = #{record.suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dearcustomer != null" >
+        dearcustomer = #{record.dearcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customtower != null" >
+        customtower = #{record.customtower,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderno != null" >
+        orderno = #{record.orderno,jdbcType=BIGINT},
+      </if>
+      <if test="record.totalfee != null" >
+        totalfee = #{record.totalfee,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order
+    set id = #{record.id,jdbcType=BIGINT},
+      orderdate = #{record.orderdate,jdbcType=DATE},
+      times = #{record.times,jdbcType=TIMESTAMP},
+      deliverydate = #{record.deliverydate,jdbcType=DATE},
+      orderstatus = #{record.orderstatus,jdbcType=BIGINT},
+      customernumber = #{record.customernumber,jdbcType=BIGINT},
+      customername = #{record.customername,jdbcType=VARCHAR},
+      deliverydestinationcode = #{record.deliverydestinationcode,jdbcType=BIGINT},
+      suppliername = #{record.suppliername,jdbcType=VARCHAR},
+      dearcustomer = #{record.dearcustomer,jdbcType=VARCHAR},
+      customtower = #{record.customtower,jdbcType=BIGINT},
+      orderno = #{record.orderno,jdbcType=BIGINT},
+      totalfee = #{record.totalfee,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzz.entity.Order" >
+    update order
+    <set >
+      <if test="orderdate != null" >
+        orderdate = #{orderdate,jdbcType=DATE},
+      </if>
+      <if test="times != null" >
+        times = #{times,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverydate != null" >
+        deliverydate = #{deliverydate,jdbcType=DATE},
+      </if>
+      <if test="orderstatus != null" >
+        orderstatus = #{orderstatus,jdbcType=BIGINT},
+      </if>
+      <if test="customernumber != null" >
+        customernumber = #{customernumber,jdbcType=BIGINT},
+      </if>
+      <if test="customername != null" >
+        customername = #{customername,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverydestinationcode != null" >
+        deliverydestinationcode = #{deliverydestinationcode,jdbcType=BIGINT},
+      </if>
+      <if test="suppliername != null" >
+        suppliername = #{suppliername,jdbcType=VARCHAR},
+      </if>
+      <if test="dearcustomer != null" >
+        dearcustomer = #{dearcustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="customtower != null" >
+        customtower = #{customtower,jdbcType=BIGINT},
+      </if>
+      <if test="orderno != null" >
+        orderno = #{orderno,jdbcType=BIGINT},
+      </if>
+      <if test="totalfee != null" >
+        totalfee = #{totalfee,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzz.entity.Order" >
+    update order
+    set orderdate = #{orderdate,jdbcType=DATE},
+      times = #{times,jdbcType=TIMESTAMP},
+      deliverydate = #{deliverydate,jdbcType=DATE},
+      orderstatus = #{orderstatus,jdbcType=BIGINT},
+      customernumber = #{customernumber,jdbcType=BIGINT},
+      customername = #{customername,jdbcType=VARCHAR},
+      deliverydestinationcode = #{deliverydestinationcode,jdbcType=BIGINT},
+      suppliername = #{suppliername,jdbcType=VARCHAR},
+      dearcustomer = #{dearcustomer,jdbcType=VARCHAR},
+      customtower = #{customtower,jdbcType=BIGINT},
+      orderno = #{orderno,jdbcType=BIGINT},
+      totalfee = #{totalfee,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

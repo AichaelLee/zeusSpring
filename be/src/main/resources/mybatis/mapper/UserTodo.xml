@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzz.mapper.UserTodoRepository">
+    <resultMap type="com.lzz.entity.Users" id="chiyoudausers">
+      <id property="id" column="id" />
+      <result property="name" column="name" />
+      <result property="email" column="email" />
+      <result property="password" column="password" />
+      <result property="passwordLastModified" column="password_last_modified" />
+      <result property="accontType" column="accont_type" />
+      <result property="adminType" column="admin_type" />
+      <result property="tokuisakiCd" column="tokuisaki_cd" />
+      <result property="shiiresakiCd" column="shiiresaki_cd" />
+      <result property="lastLogin" column="last_login" />
+      <result property="created" column="created" />
+      <result property="accountStatus" column="account_status" />
+      <result property="photo" column="photo" jdbcType="BINARY"/>
+      <result property="hiragana" column="hiragana" />
+      <result property="katakana" column="katakana" />
+      <result property="tel" column="tel" />
+      <result property="zipcode" column="zipcode" />
+      <result property="address" column="address" />
+    </resultMap>
+  <select id="findOneByEmail" parameterType="string" resultType="com.lzz.entity.Users">
+    SELECT
+    id,
+    name,
+    email,
+    password_last_modified,
+    accont_type,
+    hiragana,
+    katakana,
+    tel,
+    zipcode,
+    address
+    FROM
+    users
+    WHERE
+    email = #{email}
+  </select>
+
+  <update id="updatePassword" parameterType="com.lzz.entity.Users">
+    UPDATE
+    users
+    SET
+    password = #{password},
+    password_last_modified = NOW()
+    WHERE
+    email =
+    #{email}
+  </update>
+
+  <select id="findOneByUser" parameterType="com.lzz.entity.Users" resultType="com.lzz.entity.Users">
+    SELECT
+    id,
+    name,
+    email,
+    password,
+    password_last_modified,
+    accont_type,
+    CASE
+    WHEN DATEDIFF(day, password_last_modified, getdate()) >= 90 THEN
+    'TRUE'
+    ELSE 'FALSE' END lastModifiedAt,
+    FROM
+    users
+    <where>
+      <if test="id != null">
+        id = #{id}
+      </if>
+      <if test="name != null">
+        name = #{name}
+      </if>
+      <if test="email != null">
+        email = #{email}
+      </if>
+      <if test="password != null">
+        password = #{password}
+      </if>
+    </where>
+  </select>
+
+  <update id="updateUnlessNull" parameterType="com.lzz.entity.Users">
+    UPDATE
+    users
+    SET
+    <if test="name != null">
+      name = #{name},
+    </if>
+    <if test="email != null">
+      email = #{email},
+    </if>
+    <if test="password != null">
+      password = #{password},
+    </if>
+    <if test="accontType != null">
+      accont_type = #{accontType},
+    </if>
+    password_last_modified = NOW()
+    WHERE
+    id = #{id}
+  </update>
+  <!--parameterType是可选的，因为mybatis的typeHandler会推断出具体传入语句的参数，默认为unset-->
+  <!--resultType，使用resultType或者resultMap，但是两者不能同时使用-->
+  <!--flushCache:如果把flushCache设置为true，那语句每次被调用，都会导致本地缓存和二级缓存都被清空，默认值为false-->
+  <!--useCache：设置为true，本条语句会被二级缓存起来-->
+  <select id="Login_searchUserByEmail" parameterType="Map"
+          resultMap="chiyoudausers">
+    SELECT
+    T1.*
+    <if test="token != null">
+      <if test="token != ''">
+        ,(SELECT array_agg(rtrim(token)) from
+        login_registerd_devices WHERE
+        T1.id = user_id) devices
+      </if>
+    </if>
+    FROM users T1
+    WHERE
+    <if test="email != null">
+      <if test="email != ''">
+        T1.email = #{email}
+      </if>
+    </if>
+    <if test="id != null">
+      <if test="id != ''">
+        T1.id = #{id}
+      </if>
+    </if>
+    AND deletedflag=0
+  </select>
+  <update id="Login_updateLastLogintime" parameterType="com.lzz.entity.Users">
+    UPDATE
+    users
+    SET
+    last_login = now()
+    WHERE
+    id = #{id}
+  </update>
+  <insert id="addUser" parameterType="com.lzz.entity.Users" useGeneratedKeys="true"
+          keyProperty="id">
+    INSERT INTO
+    users(
+    name,
+    email,
+    password,
+    password_last_modified,
+    accont_type,
+    admin_type,
+    tokuisaki_cd,
+    shiiresaki_cd,
+    last_login,
+    created,
+    account_status,
+    deletedflag)
+    VALUES
+    (
+    #{name},
+    #{email},
+    #{password},
+    #{passwordLastModified},
+    #{accontType},
+    #{adminType},
+    #{tokuisakiCd},
+    #{shiiresakiCd},
+    #{lastLogin},
+    now(),
+    #{accountStatus},
+    #{deletedflag})
+
+  </insert>
+
+  <select id="SelectUsersByCondition" parameterType="Map"
+          resultType="com.lzz.form.AccountSearch">
+
+    <if test="loginStatus != null and loginStatus != ''">
+      select * from(
+    </if>
+    SELECT
+    id,
+    name,
+    email,
+    accont_type,
+    admin_type,
+    tokuisaki_cd,
+    last_login
+    ,(SELECT login_status FROM t_access_log WHERE
+    T1.id = user_id
+    order by create_date DESC limit 1) login_status
+    FROM
+    users T1
+    <where>
+      deletedflag=0
+      <if test="tokuisakiCd != null and tokuisakiCd != ''">
+        AND
+        tokuisaki_cd = #{tokuisakiCd}
+      </if>
+      <if test="name != '' and name != null">
+        AND
+        name ~ #{name}
+      </if>
+      <if test="email != '' and email != null">
+        AND
+        email ~ #{email}
+      </if>
+      <if test="lastLoginstart != null">
+        AND last_login <![CDATA[ >= ]]>
+        #{lastLoginstart}
+      </if>
+
+      <if test="lastLoginend != null">
+        AND last_login <![CDATA[ <= ]]>
+        #{lastLoginend}
+      </if>
+      <if test="adminType != null and adminType != ''">
+        AND
+        admin_type = #{adminType}
+      </if>
+      <if test="accontType != null and accontType != ''">
+        AND
+        accont_type = #{accontType}
+      </if>
+
+      order by id DESC
+    </where>
+    <if test="loginStatus != null and loginStatus != ''">
+      ) T2
+      where T2.login_status = #{loginStatus}
+    </if>
+  </select>
+
+  <update id="deleteById" parameterType="Integer">
+    UPDATE
+    users
+    <set>
+      deletedflag = 1
+    </set>
+    WHERE
+    id = #{id}
+  </update>
+
+  <update id="updateUsers" parameterType="com.lzz.entity.Users">
+    UPDATE
+    users
+    <set>
+      <if test="name != '' and name != null">
+        name = #{name},
+      </if>
+      <if test="email != '' and email != null">
+        email = #{email},
+      </if>
+      <if test="adminType != '' and adminType != null">
+        admin_type = #{adminType},
+      </if>
+      <if test="accountStatus !='' and accountStatus !=null">
+        account_status = #{accountStatus},
+      </if>
+    </set>
+    WHERE
+    id = #{id}
+  </update>
+
+
+  <update id="updateUsersBySelf" parameterType="com.lzz.entity.Users">
+    UPDATE
+    users
+    <set>
+      <if test="name != '' and name != null ">
+        name = #{name},
+      </if>
+      <if test="email != '' and email != null">
+        email = #{email},
+      </if>
+      <if test="adminType != '' and adminType != null">
+        admin_type = #{adminType},
+      </if>
+      <if test="accountStatus !='' and accountStatus != null">
+        account_status = #{accountStatus},
+      </if>
+      <if test="nameFirst !='' and nameFirst !=null">
+        name_first = #{nameFirst},
+      </if>
+      <if test="nameLast !='' and nameLast !=null">
+        name_last = #{nameLast},
+      </if>
+      <if test="nameFirstFurigana !='' and nameFirstFurigana !=null">
+        name_first_furigana = #{nameFirstFurigana},
+      </if>
+      <if test="nameLastFurigana !='' and nameLastFurigana !=null">
+        name_last_furigana = #{nameLastFurigana},
+      </if>
+      <if test="nameFirstKatagana !='' and nameFirstKatagana !=null">
+        name_first_katagana = #{nameFirstKatagana},
+      </if>
+      <if test="nameLastKatagana !='' and nameLastKatagana !=null">
+        name_last_katagana = #{nameLastKatagana},
+      </if>
+      <if test="photo !='' and photo !=null">
+        photo = #{photo,jdbcType=BINARY},
+      </if>
+      <if test="hiragana !='' and hiragana !=null">
+        hiragana = #{hiragana},
+      </if>
+      <if test="katakana !='' and katakana !=null">
+        katakana = #{katakana},
+      </if>
+      <if test="tel !='' and tel !=null">
+        tel = #{tel},
+      </if>
+      <if test="zipcode !='' and zipcode !=null">
+        zipcode = #{zipcode},
+      </if>
+      <if test="address !='' and address !=null">
+        address = #{address},
+      </if>
+    </set>
+    WHERE
+    id = #{id}
+  </update>
+  <select id="findOneById" parameterType="Integer" resultType="com.lzz.entity.Users">
+    SELECT
+    id,
+    name,
+    password,
+    email,
+    password_last_modified,
+    accont_type
+    FROM
+    users
+    WHERE
+    id = #{id}
+  </select>
+  <update id="updateAccountStatus" parameterType="com.lzz.entity.Users">
+    UPDATE
+    users
+    SET
+    account_status =
+    #{accountStatus}
+    WHERE
+    id = #{id}
+  </update>
+  <update id="updateUnlockAccount" parameterType="Integer">
+    UPDATE
+    users
+    SET
+    account_status=11
+    WHERE
+    id = #{id}
+  </update>
+
+  <update id="updatePasswordById" parameterType="com.lzz.entity.Users">
+    UPDATE
+      users
+    SET
+      password = #{password}
+    WHERE
+      id = #{id}
+  </update>
+
+</mapper>

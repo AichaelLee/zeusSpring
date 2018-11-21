@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzz.mapper.UsersMapper" >
+  <resultMap id="BaseResultMap" type="com.lzz.entity.Users" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="password_last_modified" property="passwordLastModified" jdbcType="TIMESTAMP" />
+    <result column="accont_type" property="accontType" jdbcType="INTEGER" />
+    <result column="admin_type" property="adminType" jdbcType="INTEGER" />
+    <result column="tokuisaki_cd" property="tokuisakiCd" jdbcType="VARCHAR" />
+    <result column="shiiresaki_cd" property="shiiresakiCd" jdbcType="VARCHAR" />
+    <result column="last_login" property="lastLogin" jdbcType="TIMESTAMP" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="name_last" property="nameLast" jdbcType="VARCHAR" />
+    <result column="name_first_furigana" property="nameFirstFurigana" jdbcType="VARCHAR" />
+    <result column="name_last_furigana" property="nameLastFurigana" jdbcType="VARCHAR" />
+    <result column="name_first_katagana" property="nameFirstKatagana" jdbcType="VARCHAR" />
+    <result column="name_last_katagana" property="nameLastKatagana" jdbcType="VARCHAR" />
+    <result column="deletedflag" property="deletedflag" jdbcType="INTEGER" />
+    <result column="account_status" property="accountStatus" jdbcType="VARCHAR" />
+    <result column="hiragana" property="hiragana" jdbcType="VARCHAR" />
+    <result column="katakana" property="katakana" jdbcType="VARCHAR" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="zipcode" property="zipcode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name_first" property="nameFirst" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lzz.entity.Users" extends="BaseResultMap" >
+    <result column="photo" property="photo" jdbcType="BINARY" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, email, password, password_last_modified, accont_type, admin_type, tokuisaki_cd, 
+    shiiresaki_cd, last_login, created, name_last, name_first_furigana, name_last_furigana, 
+    name_first_katagana, name_last_katagana, deletedflag, account_status, hiragana, katakana, 
+    tel, zipcode, address, name_first
+  </sql>
+  <sql id="Blob_Column_List" >
+    photo
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.lzz.entity.UsersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.lzz.entity.UsersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from users
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from users
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.lzz.entity.UsersExample" >
+    delete from users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.lzz.entity.Users" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into users (id, name, email, 
+      password, password_last_modified, accont_type, 
+      admin_type, tokuisaki_cd, shiiresaki_cd, 
+      last_login, created, name_last, 
+      name_first_furigana, name_last_furigana, name_first_katagana, 
+      name_last_katagana, deletedflag, account_status, 
+      hiragana, katakana, tel, 
+      zipcode, address, name_first, 
+      photo)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{passwordLastModified,jdbcType=TIMESTAMP}, #{accontType,jdbcType=INTEGER}, 
+      #{adminType,jdbcType=INTEGER}, #{tokuisakiCd,jdbcType=VARCHAR}, #{shiiresakiCd,jdbcType=VARCHAR}, 
+      #{lastLogin,jdbcType=TIMESTAMP}, #{created,jdbcType=TIMESTAMP}, #{nameLast,jdbcType=VARCHAR}, 
+      #{nameFirstFurigana,jdbcType=VARCHAR}, #{nameLastFurigana,jdbcType=VARCHAR}, #{nameFirstKatagana,jdbcType=VARCHAR}, 
+      #{nameLastKatagana,jdbcType=VARCHAR}, #{deletedflag,jdbcType=INTEGER}, #{accountStatus,jdbcType=VARCHAR}, 
+      #{hiragana,jdbcType=VARCHAR}, #{katakana,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{zipcode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{nameFirst,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=BINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lzz.entity.Users" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into users
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="passwordLastModified != null" >
+        password_last_modified,
+      </if>
+      <if test="accontType != null" >
+        accont_type,
+      </if>
+      <if test="adminType != null" >
+        admin_type,
+      </if>
+      <if test="tokuisakiCd != null" >
+        tokuisaki_cd,
+      </if>
+      <if test="shiiresakiCd != null" >
+        shiiresaki_cd,
+      </if>
+      <if test="lastLogin != null" >
+        last_login,
+      </if>
+      <if test="created != null" >
+        created,
+      </if>
+      <if test="nameLast != null" >
+        name_last,
+      </if>
+      <if test="nameFirstFurigana != null" >
+        name_first_furigana,
+      </if>
+      <if test="nameLastFurigana != null" >
+        name_last_furigana,
+      </if>
+      <if test="nameFirstKatagana != null" >
+        name_first_katagana,
+      </if>
+      <if test="nameLastKatagana != null" >
+        name_last_katagana,
+      </if>
+      <if test="deletedflag != null" >
+        deletedflag,
+      </if>
+      <if test="accountStatus != null" >
+        account_status,
+      </if>
+      <if test="hiragana != null" >
+        hiragana,
+      </if>
+      <if test="katakana != null" >
+        katakana,
+      </if>
+      <if test="tel != null" >
+        tel,
+      </if>
+      <if test="zipcode != null" >
+        zipcode,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="nameFirst != null" >
+        name_first,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordLastModified != null" >
+        #{passwordLastModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accontType != null" >
+        #{accontType,jdbcType=INTEGER},
+      </if>
+      <if test="adminType != null" >
+        #{adminType,jdbcType=INTEGER},
+      </if>
+      <if test="tokuisakiCd != null" >
+        #{tokuisakiCd,jdbcType=VARCHAR},
+      </if>
+      <if test="shiiresakiCd != null" >
+        #{shiiresakiCd,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null" >
+        #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nameLast != null" >
+        #{nameLast,jdbcType=VARCHAR},
+      </if>
+      <if test="nameFirstFurigana != null" >
+        #{nameFirstFurigana,jdbcType=VARCHAR},
+      </if>
+      <if test="nameLastFurigana != null" >
+        #{nameLastFurigana,jdbcType=VARCHAR},
+      </if>
+      <if test="nameFirstKatagana != null" >
+        #{nameFirstKatagana,jdbcType=VARCHAR},
+      </if>
+      <if test="nameLastKatagana != null" >
+        #{nameLastKatagana,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedflag != null" >
+        #{deletedflag,jdbcType=INTEGER},
+      </if>
+      <if test="accountStatus != null" >
+        #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hiragana != null" >
+        #{hiragana,jdbcType=VARCHAR},
+      </if>
+      <if test="katakana != null" >
+        #{katakana,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="nameFirst != null" >
+        #{nameFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.lzz.entity.UsersExample" resultType="java.lang.Integer" >
+    select count(*) from users
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update users
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwordLastModified != null" >
+        password_last_modified = #{record.passwordLastModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.accontType != null" >
+        accont_type = #{record.accontType,jdbcType=INTEGER},
+      </if>
+      <if test="record.adminType != null" >
+        admin_type = #{record.adminType,jdbcType=INTEGER},
+      </if>
+      <if test="record.tokuisakiCd != null" >
+        tokuisaki_cd = #{record.tokuisakiCd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shiiresakiCd != null" >
+        shiiresaki_cd = #{record.shiiresakiCd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLogin != null" >
+        last_login = #{record.lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.created != null" >
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nameLast != null" >
+        name_last = #{record.nameLast,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameFirstFurigana != null" >
+        name_first_furigana = #{record.nameFirstFurigana,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameLastFurigana != null" >
+        name_last_furigana = #{record.nameLastFurigana,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameFirstKatagana != null" >
+        name_first_katagana = #{record.nameFirstKatagana,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameLastKatagana != null" >
+        name_last_katagana = #{record.nameLastKatagana,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deletedflag != null" >
+        deletedflag = #{record.deletedflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.accountStatus != null" >
+        account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hiragana != null" >
+        hiragana = #{record.hiragana,jdbcType=VARCHAR},
+      </if>
+      <if test="record.katakana != null" >
+        katakana = #{record.katakana,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zipcode != null" >
+        zipcode = #{record.zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameFirst != null" >
+        name_first = #{record.nameFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photo != null" >
+        photo = #{record.photo,jdbcType=BINARY},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update users
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      password_last_modified = #{record.passwordLastModified,jdbcType=TIMESTAMP},
+      accont_type = #{record.accontType,jdbcType=INTEGER},
+      admin_type = #{record.adminType,jdbcType=INTEGER},
+      tokuisaki_cd = #{record.tokuisakiCd,jdbcType=VARCHAR},
+      shiiresaki_cd = #{record.shiiresakiCd,jdbcType=VARCHAR},
+      last_login = #{record.lastLogin,jdbcType=TIMESTAMP},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      name_last = #{record.nameLast,jdbcType=VARCHAR},
+      name_first_furigana = #{record.nameFirstFurigana,jdbcType=VARCHAR},
+      name_last_furigana = #{record.nameLastFurigana,jdbcType=VARCHAR},
+      name_first_katagana = #{record.nameFirstKatagana,jdbcType=VARCHAR},
+      name_last_katagana = #{record.nameLastKatagana,jdbcType=VARCHAR},
+      deletedflag = #{record.deletedflag,jdbcType=INTEGER},
+      account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      hiragana = #{record.hiragana,jdbcType=VARCHAR},
+      katakana = #{record.katakana,jdbcType=VARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      zipcode = #{record.zipcode,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      name_first = #{record.nameFirst,jdbcType=VARCHAR},
+      photo = #{record.photo,jdbcType=BINARY}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update users
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      password_last_modified = #{record.passwordLastModified,jdbcType=TIMESTAMP},
+      accont_type = #{record.accontType,jdbcType=INTEGER},
+      admin_type = #{record.adminType,jdbcType=INTEGER},
+      tokuisaki_cd = #{record.tokuisakiCd,jdbcType=VARCHAR},
+      shiiresaki_cd = #{record.shiiresakiCd,jdbcType=VARCHAR},
+      last_login = #{record.lastLogin,jdbcType=TIMESTAMP},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      name_last = #{record.nameLast,jdbcType=VARCHAR},
+      name_first_furigana = #{record.nameFirstFurigana,jdbcType=VARCHAR},
+      name_last_furigana = #{record.nameLastFurigana,jdbcType=VARCHAR},
+      name_first_katagana = #{record.nameFirstKatagana,jdbcType=VARCHAR},
+      name_last_katagana = #{record.nameLastKatagana,jdbcType=VARCHAR},
+      deletedflag = #{record.deletedflag,jdbcType=INTEGER},
+      account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      hiragana = #{record.hiragana,jdbcType=VARCHAR},
+      katakana = #{record.katakana,jdbcType=VARCHAR},
+      tel = #{record.tel,jdbcType=VARCHAR},
+      zipcode = #{record.zipcode,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      name_first = #{record.nameFirst,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzz.entity.Users" >
+    update users
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordLastModified != null" >
+        password_last_modified = #{passwordLastModified,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accontType != null" >
+        accont_type = #{accontType,jdbcType=INTEGER},
+      </if>
+      <if test="adminType != null" >
+        admin_type = #{adminType,jdbcType=INTEGER},
+      </if>
+      <if test="tokuisakiCd != null" >
+        tokuisaki_cd = #{tokuisakiCd,jdbcType=VARCHAR},
+      </if>
+      <if test="shiiresakiCd != null" >
+        shiiresaki_cd = #{shiiresakiCd,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null" >
+        last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="created != null" >
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nameLast != null" >
+        name_last = #{nameLast,jdbcType=VARCHAR},
+      </if>
+      <if test="nameFirstFurigana != null" >
+        name_first_furigana = #{nameFirstFurigana,jdbcType=VARCHAR},
+      </if>
+      <if test="nameLastFurigana != null" >
+        name_last_furigana = #{nameLastFurigana,jdbcType=VARCHAR},
+      </if>
+      <if test="nameFirstKatagana != null" >
+        name_first_katagana = #{nameFirstKatagana,jdbcType=VARCHAR},
+      </if>
+      <if test="nameLastKatagana != null" >
+        name_last_katagana = #{nameLastKatagana,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedflag != null" >
+        deletedflag = #{deletedflag,jdbcType=INTEGER},
+      </if>
+      <if test="accountStatus != null" >
+        account_status = #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="hiragana != null" >
+        hiragana = #{hiragana,jdbcType=VARCHAR},
+      </if>
+      <if test="katakana != null" >
+        katakana = #{katakana,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        zipcode = #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="nameFirst != null" >
+        name_first = #{nameFirst,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=BINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lzz.entity.Users" >
+    update users
+    set name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      password_last_modified = #{passwordLastModified,jdbcType=TIMESTAMP},
+      accont_type = #{accontType,jdbcType=INTEGER},
+      admin_type = #{adminType,jdbcType=INTEGER},
+      tokuisaki_cd = #{tokuisakiCd,jdbcType=VARCHAR},
+      shiiresaki_cd = #{shiiresakiCd,jdbcType=VARCHAR},
+      last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      name_last = #{nameLast,jdbcType=VARCHAR},
+      name_first_furigana = #{nameFirstFurigana,jdbcType=VARCHAR},
+      name_last_furigana = #{nameLastFurigana,jdbcType=VARCHAR},
+      name_first_katagana = #{nameFirstKatagana,jdbcType=VARCHAR},
+      name_last_katagana = #{nameLastKatagana,jdbcType=VARCHAR},
+      deletedflag = #{deletedflag,jdbcType=INTEGER},
+      account_status = #{accountStatus,jdbcType=VARCHAR},
+      hiragana = #{hiragana,jdbcType=VARCHAR},
+      katakana = #{katakana,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      zipcode = #{zipcode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      name_first = #{nameFirst,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=BINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzz.entity.Users" >
+    update users
+    set name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      password_last_modified = #{passwordLastModified,jdbcType=TIMESTAMP},
+      accont_type = #{accontType,jdbcType=INTEGER},
+      admin_type = #{adminType,jdbcType=INTEGER},
+      tokuisaki_cd = #{tokuisakiCd,jdbcType=VARCHAR},
+      shiiresaki_cd = #{shiiresakiCd,jdbcType=VARCHAR},
+      last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      created = #{created,jdbcType=TIMESTAMP},
+      name_last = #{nameLast,jdbcType=VARCHAR},
+      name_first_furigana = #{nameFirstFurigana,jdbcType=VARCHAR},
+      name_last_furigana = #{nameLastFurigana,jdbcType=VARCHAR},
+      name_first_katagana = #{nameFirstKatagana,jdbcType=VARCHAR},
+      name_last_katagana = #{nameLastKatagana,jdbcType=VARCHAR},
+      deletedflag = #{deletedflag,jdbcType=INTEGER},
+      account_status = #{accountStatus,jdbcType=VARCHAR},
+      hiragana = #{hiragana,jdbcType=VARCHAR},
+      katakana = #{katakana,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      zipcode = #{zipcode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      name_first = #{nameFirst,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

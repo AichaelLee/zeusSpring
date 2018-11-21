@@ -1,0 +1,15 @@
+before_script:
+  - echo "install dpl deploy tool" 
+
+stages:
+  - deploy
+
+deploy to production:
+  stage: deploy
+  environment: production
+  tags:
+    - heroku
+  only:
+    - master
+  script: 
+    - dpl --provider=heroku --app=ifw-demo2 --api-key=$HEROKU_API_KEY
