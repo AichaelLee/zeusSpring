@@ -13,7 +13,6 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -21,12 +20,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
@@ -45,7 +40,7 @@ public class GlobalProxy3 {
 
             executor.execute(() -> {
                 try {
-                    authInfo("A学校","123");
+                    authInfo("B学校","123");
                     //authInfo("B学校","123");
 //                    authInfo("C学校","张三C"+threadNum);
 //                    authInfo("A学校","李四A"+threadNum);
@@ -93,12 +88,18 @@ public class GlobalProxy3 {
                 params.add(new BasicNameValuePair("name","张三"));
                 params.add(new BasicNameValuePair("password","123"));
                 httpPost.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+                Map<String,String> param = new HashMap<>();
+                param.put("name","张三");
+                param.put("password","123");
+               // HttpClientResult result = HttpClientUtils.doPost(url,param);
+                HttpClientResult result = HttpClientUtils.doGet(url,param);
+                System.out.println("the result is:"+result.getContent());
 //                CloseableHttpResponse response = httpclient.execute(httpget);
-                CloseableHttpResponse response = httpclient.execute(httpPost);
+               // CloseableHttpResponse response = httpclient.execute(httpPost);
                 try {
-                    System.out.println(EntityUtils.toString(response.getEntity()));
+                   // System.out.println(EntityUtils.toString(response.getEntity()));
                 } finally {
-                    response.close();
+                    //response.close();
                 }
             } finally {
                 httpclient.close();
