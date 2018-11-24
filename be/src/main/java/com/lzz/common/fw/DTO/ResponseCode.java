@@ -1,16 +1,20 @@
 package com.lzz.common.fw.DTO;
 
 /**
- * Created by geely
+ * @author aichaellee
+ * 自定义响应码
  */
 public enum ResponseCode {
 
     /**成功*/
     SUCCESS(0,"SUCCESS"),
+
     /**失败*/
     ERROR(1,"ERROR"),
+
     /**需要登录*/
     NEED_LOGIN(10,"NEED_LOGIN"),
+
     /**非法的参数*/
     ILLEGAL_ARGUMENT(2,"ILLEGAL_ARGUMENT");
 

@@ -1,12 +1,14 @@
 package com.lzz.common.annotation;
 
-import cn.exrick.xboot.common.enums.LogType;
+
+import com.lzz.common.constant.LogType;
 
 import java.lang.annotation.*;
 
 /**
- * 系统日志自定义注解
- * @author Exrickx
+ * 方法级别的系统日志
+ * @author aichaellee
+ * @date 2018-11-20
  */
 @Target({ElementType.PARAMETER, ElementType.METHOD})//作用于参数或方法上
 @Retention(RetentionPolicy.RUNTIME)

@@ -1,5 +1,6 @@
 package com.lzz.controller;
 
+import com.lzz.common.annotation.SystemLog;
 import com.lzz.common.fw.DTO.ServerResponse;
 import com.lzz.common.util.RedisUtil;
 import com.lzz.common.util.UserDetails;
@@ -38,6 +39,7 @@ import java.util.Map;
 @RequestMapping(value = "api/v1/user")
 @Api(value = "用户的增删改查")
 @Slf4j
+
 public class User_Controller {
 
     @Autowired
@@ -91,6 +93,7 @@ public class User_Controller {
      * @Param search condition
      * */
     @GetMapping(value = "/search")
+    @SystemLog
     public ServerResponse<List<Map>> SearchUsers(AccountSearch accountSearch) {
 
 //        Job job = jobRepository.findOneById(1);
