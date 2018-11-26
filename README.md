@@ -1,10 +1,10 @@
 [![Build Status](https://travis-ci.org/shuzheng/zheng.svg?branch=master)](https://travis-ci.org/shuzheng/zheng)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/shuzheng/zheng/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Aichaellee/springboot/pulls)
 
 ## 快速部署
-Heroku是一个Paas云服务平台,它支持免费你免费地使用有限制的资源,但对于我们日常使用测试
- 完全没有问题,我们支持一键部署至Heroku,开始尝试你的云端之旅吧!<br><br>
+Heroku是一个Paas云服务平台,它支持免费地使用某些资源,但对于我们日常使用测试
+ 完全没有问题,我们支持一键部署至Heroku,如果你没有Heroku的相关经验,可以点击[这里](https://aichaellee.github.io/doc/heroku/simIntroduction.html)查看新手指南,好,开始尝试你的云端之旅吧!<br><br>
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 ## 功能特性
 
