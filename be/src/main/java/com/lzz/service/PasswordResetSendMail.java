@@ -1,7 +1,6 @@
 package com.lzz.service;
 
 import com.lzz.common.util.MessageUtil;
-import com.lzz.common.util.RabbitMqSender;
 import com.lzz.entity.PasswordResets;
 import com.lzz.mapper.PasswordResetsRepository;
 import org.slf4j.Logger;
@@ -23,8 +22,8 @@ public class PasswordResetSendMail {
     @Autowired
     MessageUtil messageUtil;
 
-    @Autowired
-    RabbitMqSender rabbitMq;
+//    @Autowired
+//    RabbitMqSender rabbitMq;
 
     @Autowired
     private PasswordResetsRepository passwordResetsRepository;

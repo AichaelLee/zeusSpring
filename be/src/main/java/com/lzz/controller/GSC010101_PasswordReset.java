@@ -1,7 +1,6 @@
 package com.lzz.controller;
 
 import com.lzz.common.util.MessageUtil;
-import com.lzz.common.util.RabbitMqSender;
 import com.lzz.common.util.ResultBean;
 import com.lzz.entity.PasswordResets;
 import com.lzz.entity.TAccessLog;
@@ -48,9 +47,9 @@ public class GSC010101_PasswordReset {
 
     @Autowired
     MessageUtil messageUtil;
-
-    @Autowired
-    RabbitMqSender rabbitMq;
+//
+//    @Autowired
+//    RabbitMqSender rabbitMq;
 
     @PutMapping(value = "{signId}/password")
     @ResponseStatus(HttpStatus.OK)
@@ -107,7 +106,7 @@ public class GSC010101_PasswordReset {
         mails.put("to", form.getEmail());
         mails.put("subject", messageUtil.getMessage("PWFORGET_MAIL_SUBJECT"));
         mails.put("text", messageUtil.getMessage("PWFORGET_MAIL_TEXT", username, dateFormat.format(date), MAIL_THIS_URL + passwordResets.getToken(), MAIL_THIS_MAIL));
-        rabbitMq.sendMailOnBatch(mails);
+       // rabbitMq.sendMailOnBatch(mails);
 
 //        resultBean.getModelBeanMap().put("success", true);
         retrunResult.put("status", 200);

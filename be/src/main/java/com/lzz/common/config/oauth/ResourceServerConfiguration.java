@@ -3,9 +3,10 @@ package com.lzz.common.config.oauth;
 import com.lzz.common.config.MyAuthenticationFailHandler;
 import com.lzz.common.config.MyAuthenticationSucessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.Http401AuthenticationEntryPoint;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 /**
@@ -43,7 +44,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
             .and().logout().permitAll().logoutUrl("/logout").logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
             .and().csrf().disable().cors()
             .and().rememberMe().rememberMeParameter("rememberMe")
-            .and().exceptionHandling().authenticationEntryPoint(new Http401AuthenticationEntryPoint("ITEC_UNAUTHORIZED"));
+            .and().exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 
         // 認可の設定
         http.authorizeRequests()

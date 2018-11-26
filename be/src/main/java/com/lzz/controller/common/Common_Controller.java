@@ -29,7 +29,7 @@ public class Common_Controller {
      */
     @RequestMapping(value = "/getWeather", method = RequestMethod.GET)
     public void getWeather(@RequestParam(name = "city", defaultValue = "130010") String city,
-                           HttpServletResponse response) throws IOException {
+                           HttpServletResponse response) throws IOException,JSONException{
 
         String jsonText = readJsonFromUrl("http://weather.livedoor.com/forecast/webservice/json/v1?city=" + city);
         response.setContentType("application/json");

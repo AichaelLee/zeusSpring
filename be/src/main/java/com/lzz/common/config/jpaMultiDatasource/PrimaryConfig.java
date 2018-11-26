@@ -49,7 +49,8 @@ public class PrimaryConfig {
     private JpaProperties jpaProperties;
 
     private Map<String, String> getVendorProperties(DataSource dataSource) {
-        return jpaProperties.getHibernateProperties(dataSource);
+        return jpaProperties.getProperties();
+        //return jpaProperties.getHibernateProperties(dataSource);
     }
 
     @Primary

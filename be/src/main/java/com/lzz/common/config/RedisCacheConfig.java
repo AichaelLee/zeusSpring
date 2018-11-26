@@ -1,8 +1,12 @@
 package com.lzz.common.config;
 
+import com.lzz.common.util.FastJsonRedisSerializer;
+import com.lzz.common.util.JedisPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -11,11 +15,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import redis.clients.jedis.JedisPool;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -55,35 +56,62 @@ public class RedisCacheConfig extends CachingConfigurerSupport{
     private String password;
 
 
-    @Bean
-    public JedisPool redisPoolFactory() {
-        logger.info("JedisPool注入成功！！");
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        jedisPoolConfig.setMaxIdle(maxIdle);
-        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host,port,timeout,password);
+//    @Bean
+//    public JedisPool redisPoolFactory() {
+//        logger.info("JedisPool注入成功！！");
+//        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+//        jedisPoolConfig.setMaxIdle(maxIdle);
+//        jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
+//        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host,port,timeout,password);
+//
+//        return jedisPool;
+//    }
+//
+//
+//    @Bean
+//    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory cf) {
+//        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+//        redisTemplate.setConnectionFactory(cf);
+//        return redisTemplate;
+//    }
 
-        return jedisPool;
+
+    @Bean(name = "redisTemplate")
+    @SuppressWarnings("unchecked")
+    @ConditionalOnMissingBean(name = "redisTemplate")
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+
+        //使用fastjson序列化
+        FastJsonRedisSerializer fastJsonRedisSerializer = new FastJsonRedisSerializer(Object.class);
+        // value值的序列化采用fastJsonRedisSerializer
+        template.setValueSerializer(fastJsonRedisSerializer);
+        template.setHashValueSerializer(fastJsonRedisSerializer);
+        // key的序列化采用StringRedisSerializer
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+
+        template.setConnectionFactory(redisConnectionFactory);
+        return template;
     }
 
 
     @Bean
-    public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory cf) {
-        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(cf);
-        return redisTemplate;
-    }
+    public CacheManager cacheManager(@Autowired RedisConnectionFactory redisConnectionFactory) {
+//        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
+//
+//        //默认超时时间,单位秒
+//
+//        cacheManager.setDefaultExpiration(3000);
+//        //根据缓存名称设置超时时间,0为不超时
+//        Map<String,Long> expires = new ConcurrentHashMap<>();
+//        cacheManager.setExpires(expires);
+//
+//        return cacheManager;
+        RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager
+            .RedisCacheManagerBuilder
+            .fromConnectionFactory(redisConnectionFactory);
+        return builder.build();
 
-    @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-
-        //默认超时时间,单位秒
-        cacheManager.setDefaultExpiration(3000);
-        //根据缓存名称设置超时时间,0为不超时
-        Map<String,Long> expires = new ConcurrentHashMap<>();
-        cacheManager.setExpires(expires);
-
-        return cacheManager;
     }
 }
