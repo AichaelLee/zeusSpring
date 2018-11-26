@@ -14,6 +14,12 @@ zookeeper | 已完成  | ✔️
 
 # TODO
 函数式接口
+jenkins持续集成
+gitlab-ci持续集成
+分布式锁
+heroku一键部署
+redis限流
+quartz定时任务
 
 ### 技术选型
 

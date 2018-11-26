@@ -87,6 +87,7 @@ public class SystemLogAspect {
 
                 //output log
                 Long totalTime = endTime - beginTime;
+                log.info("{} 操作开始时间为: {} 共耗时 {} 微秒",operationName,startTime,totalTime);
                 log.info("{} bigin at {},and consume total {} milliseconds",operationName,startTime,totalTime);
 
             }
