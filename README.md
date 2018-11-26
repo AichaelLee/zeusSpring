@@ -2,7 +2,9 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/shuzheng/zheng/pulls)
 
-## Heroku 一键部署
+## 快速部署
+Heroku是一个Paas云服务平台,它支持免费你免费地使用有限制的资源,但对于我们日常使用测试
+ 完全没有问题,我们支持一键部署至Heroku,开始尝试你的云端之旅吧!<br>
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 ## 功能特性
 

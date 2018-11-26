@@ -11,5 +11,5 @@
   "success_url": "/",
   "env": {
   },
-  "addons": ["heroku-postgresql"]
+  "addons": ["heroku-postgresql","Papertrail","Pushwoosh","SendGrid"]
 }
