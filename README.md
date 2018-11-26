@@ -2,8 +2,15 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Aichaellee/springboot/pulls)
 
+[中文文档]() [英文文档]()
+
+
+## 项目简介
+代码拥有丰富的注释和[文档](),基于springboot 2.0 release开发,目前正在进行[springCLoud版本](),[dubbo版本](),敬请期待
+正在开发cli快速搭建脚手架
+
 ## 快速部署
-为了更方便地部署,我完善了持续集成和快速部署部分,现在支持AWS 或 阿里云 或 本地机器的快速脚本部署,并且完善了相关的
+为了更方便地部署,我完善了持续集成和快速部署部分,现在支持AWS 或 阿里云 或 本地服务器的快速脚本部署,并且完善了相关的
 教程,同时还支持Heroku的一键部署,可以让你飞快地体验,是不是已经迫不及待了?那就开始吧!
 ### Heroku
 Heroku是一个Paas云服务平台,它支持免费地使用某些资源,但对于我们日常使用测试
@@ -11,8 +18,8 @@ Heroku是一个Paas云服务平台,它支持免费地使用某些资源,但对�
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 ### AWS
-您可以下载AWS 分支,该部分对AWS的环境进行了定制化,并提供了AWS Formation模板,基础设施即服务,你可以通过
-模板快速生成AWS 基础设施,包括EC2,S3,RDS等,当然这些在代码中我都做了适配,你可以很方便地建立起一整套的高可用的分布式集群系统,快来体验吧!
+您可以下载AWS 分支,该部分对AWS的环境进行了定制化,并提供了AWS Formation模板,你可以通过
+模板快速生成AWS 基础设施,包括EC2,S3,RDS等,当然这些在代码中我都做了适配,你可以很方便地建立起一整套的高性能高可用自动扩展的分布式集群系统,快来体验吧!
 如果您没有使用AWS的相关经验,可以查看[这里](https://aichaellee.github.io/doc/heroku/simIntroduction.html)的相关文档
 
 ### 本地部署 todo
