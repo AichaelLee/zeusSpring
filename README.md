@@ -3,8 +3,11 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Aichaellee/springboot/pulls)
 
 ## 快速部署
+为了更方便地部署,我完善了持续集成和快速部署部分,现在支持AWS 或 阿里云 或 本地机器的快速脚本部署,并且晚上了相关的
+教程,同时还支持Heroku的一键部署,可以让你飞快地体验,是不是已经迫不及待了?开始吧
+### Heroku
 Heroku是一个Paas云服务平台,它支持免费地使用某些资源,但对于我们日常使用测试
- 完全没有问题,我们支持一键部署至Heroku,如果你没有Heroku的相关经验,可以点击[这里](https://aichaellee.github.io/doc/heroku/simIntroduction.html)查看新手指南,好,开始尝试你的云端之旅吧!<br><br>
+ 完全没有问题,我们支持一键部署至Heroku,如果你没有Heroku的相关经验,可以点击[这里](https://aichaellee.github.io/doc/heroku/simIntroduction.html)查看友好的新手指南,好了,现在开始尝试你的云端之旅吧!<br><br>
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 ## 功能特性
 
