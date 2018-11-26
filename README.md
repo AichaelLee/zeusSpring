@@ -9,7 +9,7 @@
 * 代码拥有丰富的注释和[文档](),基于springboot 2.0 release开发,目前正在进行[springCloud版本](),[dubbo版本]()的重构,敬请期待
 * 使用sendGrid 发送邮件,免费用户每月可发送10000条
 * 支持如微信,QQ,github等第三方登录
-* 实现了单点登录
+* Spring Security基于JWT实现SSO单点登录
 * Actuator可视化数据监控
 * quartz定时任务进行邮件发送或消息通知
 * 使用WebSocket进行消息推送
