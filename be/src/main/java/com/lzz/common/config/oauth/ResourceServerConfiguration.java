@@ -3,8 +3,10 @@ package com.lzz.common.config.oauth;
 import com.lzz.common.config.MyAuthenticationFailHandler;
 import com.lzz.common.config.MyAuthenticationSucessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -13,8 +15,8 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
  * Created by aichaellee on 2018/9/17.
  */
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableResourceServer
-//@Configuration
+@EnableResourceServer
+@Configuration
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     @Autowired

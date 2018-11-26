@@ -39,6 +39,7 @@ Heroku是一个Paas云服务平台,它支持免费地使用某些资源,但对�
 整合mybatis,jpa | 已完成  | ✔️
 dubbo | 已完成  | ✔️
 zookeeper | 已完成  | ✔️
+创建定时任务
 
 # TODO
 函数式接口

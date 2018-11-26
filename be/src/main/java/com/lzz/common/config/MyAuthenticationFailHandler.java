@@ -6,6 +6,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import java.io.PrintWriter;
  * Created by aichaellee on 2018/9/29.
  */
 @Slf4j
-//@Component
+@Component
 public class MyAuthenticationFailHandler extends SimpleUrlAuthenticationFailureHandler {
 
 
