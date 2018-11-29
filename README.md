@@ -43,6 +43,7 @@ zookeeper | 已完成  | ✔️
 heroku一键部署 | 已完成  | ✔️
 gitlab-ci持续集成 | 已完成  | ✔️
 quartz创建定时任务 | 已完成  | ✔️
+Druid可视化监控 | 已完成  | ✔️
 
 
 # TODO
