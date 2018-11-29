@@ -9,7 +9,9 @@
 * 代码拥有丰富的注释和[文档](),基于springboot 2.0 release开发,目前正在进行[springCloud版本](),[dubbo版本]()的重构,敬请期待
 * rabbitMQ+sendGrid 异步发送邮件,免费用户每月可发送10000条
 * 支持如微信,QQ,github等第三方登录
+* 实现postgres,mysql双数据源,mybatis,springDataJPA双ORM框架的自由切换
 * Spring Security基于JWT实现SSO单点登录
+* spring session 集成redis实现分布式session共享
 * Actuator可视化数据监控
 * quartz定时任务进行邮件发送或消息通知
 * 使用WebSocket进行消息推送
@@ -35,20 +37,20 @@ Heroku是一个Paas云服务平台,它支持免费地使用某些资源,但对�
 
 功能 | 进度 | 预计时间
 ----|------|----
-全局异常处理 | 已完成  | ✔️
-整合mybatis,jpa | 已完成  | ✔️
+自动切换双数据源 | 已完成  | ✔️
 dubbo | 已完成  | ✔️
 zookeeper | 已完成  | ✔️
-创建定时任务
+heroku一键部署 | 已完成  | ✔️
+gitlab-ci持续集成 | 已完成  | ✔️
+quartz创建定时任务 | 已完成  | ✔️
+
 
 # TODO
-函数式接口
+* 函数式接口
 jenkins持续集成
-gitlab-ci持续集成
 分布式锁
-heroku一键部署
 redis限流
-quartz定时任务
+配置动态数据源
 
 ### 技术选型
 
