@@ -1,5 +1,7 @@
 package com.lzz.common.config;
 
+import com.lzz.common.filter.LogTrackInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -7,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    LogTrackInterceptor logTrackInterceptor;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -17,6 +22,13 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         }
 
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry){
+        registry.addInterceptor(logTrackInterceptor);
+        super.addInterceptors(registry);
+    }
+
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
