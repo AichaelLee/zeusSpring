@@ -44,6 +44,7 @@ heroku一键部署 | 已完成  | ✔️
 gitlab-ci持续集成 | 已完成  | ✔️
 quartz创建定时任务 | 已完成  | ✔️
 Druid可视化监控 | 已完成  | ✔️
+redis分布式锁 | 已完成  | ✔️
 
 
 # TODO
@@ -80,7 +81,7 @@ sequence | 分布式高效ID生产  | [http://git.oschina.net/yu120/sequence](ht
 Jenkins | 持续集成工具  | [https://jenkins.io/index.html](https://jenkins.io/index.html)
 Maven | 项目构建管理  | [http://maven.apache.org/](http://maven.apache.org/)
 Netty-socketio | 实时推送  | [https://github.com/mrniko/netty-socketio](https://github.com/mrniko/netty-socketio)
-
+Redisson | 分布式redis工具包  | [https://redisson.org](https://redisson.org)
 #### 前端技术:
 技术 | 名称 | 官网
 ----|------|----
