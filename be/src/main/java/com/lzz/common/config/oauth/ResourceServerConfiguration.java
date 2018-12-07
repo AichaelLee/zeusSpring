@@ -15,8 +15,8 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
  * Created by aichaellee on 2018/9/17.
  */
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
-@EnableResourceServer
-@Configuration
+//@EnableResourceServer
+//@Configuration
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     @Autowired
