@@ -22,13 +22,13 @@
         />
 
         <javaModelGenerator targetPackage="org.zeus.entity"
-                            targetProject="./cnki-common/src/main/java/">
+                            targetProject="./zeus-common/src/main/java/">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
       <sqlMapGenerator targetPackage="mybatis.dmsMapper"
-                       targetProject="cnki-web/src/main/resources/">
+                       targetProject="zeus-web/src/main/resources/">
         <property name="enableSubPackages" value="false" />
       </sqlMapGenerator>
 
