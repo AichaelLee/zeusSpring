@@ -103,7 +103,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         })
         .and()
                 // loginPage("/login_p"). todo
-        .formLogin().loginProcessingUrl("/login")
+        .formLogin().loginPage("/login_p").loginProcessingUrl("/login")
         .usernameParameter("username").passwordParameter("password")
         .failureHandler(new CustomAuthenticationFailureHandler())
         .successHandler(new CustomAuthenticationSuccessHandler())
