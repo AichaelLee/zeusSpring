@@ -15,8 +15,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @SpringBootApplication
 @MapperScan({"org.zeus.dmsMapper"})
 @ComponentScan({"org.zeus.controller","org.zeus.common","org.zeus.config","org.zeus.service"})
-@EnableCaching
-@EnableRedisHttpSession
+//@EnableCaching
+//@EnableRedisHttpSession
 public class ZeusDmsApplication {
 
 	public static void main(String[] args) {
