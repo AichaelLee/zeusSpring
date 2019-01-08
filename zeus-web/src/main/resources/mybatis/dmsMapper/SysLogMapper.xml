@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.zeus.dmsMapper.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="org.zeus.entity.SysLog" >
+    <id column="log_id" property="logId" jdbcType="INTEGER" />
+    <result column="log_type" property="logType" jdbcType="VARCHAR" />
+    <result column="log_content" property="logContent" jdbcType="VARCHAR" />
+    <result column="operation_time" property="operationTime" jdbcType="TIMESTAMP" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+    <result column="sys_type" property="sysType" jdbcType="VARCHAR" />
+    <result column="operator_role" property="operatorRole" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    log_id, log_type, log_content, operation_time, operator, sys_type, operator_role
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.zeus.entity.SysLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_log
+    where log_id = #{logId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.zeus.entity.SysLogExample" >
+    delete from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.zeus.entity.SysLog" >
+    insert into sys_log (log_id, log_type, log_content, 
+      operation_time, operator, sys_type, 
+      operator_role,ip_address)
+    values (#{logId,jdbcType=INTEGER}, #{logType,jdbcType=VARCHAR}, #{logContent,jdbcType=VARCHAR}, 
+      #{operationTime,jdbcType=TIMESTAMP}, #{operator,jdbcType=VARCHAR}, #{sysType,jdbcType=VARCHAR}, 
+      #{operatorRole,jdbcType=VARCHAR},#{ipAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zeus.entity.SysLog" >
+    insert into sys_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        log_id,
+      </if>
+      <if test="logType != null" >
+        log_type,
+      </if>
+      <if test="logContent != null" >
+        log_content,
+      </if>
+      <if test="operationTime != null" >
+        operation_time,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+      <if test="sysType != null" >
+        sys_type,
+      </if>
+      <if test="operatorRole != null" >
+        operator_role,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="logType != null" >
+        #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logContent != null" >
+        #{logContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null" >
+        #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorRole != null" >
+        #{operatorRole,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.zeus.entity.SysLogExample" resultType="java.lang.Integer" >
+    select count(*) from sys_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_log
+    <set >
+      <if test="record.logId != null" >
+        log_id = #{record.logId,jdbcType=INTEGER},
+      </if>
+      <if test="record.logType != null" >
+        log_type = #{record.logType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logContent != null" >
+        log_content = #{record.logContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationTime != null" >
+        operation_time = #{record.operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operator != null" >
+        operator = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysType != null" >
+        sys_type = #{record.sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorRole != null" >
+        operator_role = #{record.operatorRole,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_log
+    set log_id = #{record.logId,jdbcType=INTEGER},
+      log_type = #{record.logType,jdbcType=VARCHAR},
+      log_content = #{record.logContent,jdbcType=VARCHAR},
+      operation_time = #{record.operationTime,jdbcType=TIMESTAMP},
+      operator = #{record.operator,jdbcType=VARCHAR},
+      sys_type = #{record.sysType,jdbcType=VARCHAR},
+      operator_role = #{record.operatorRole,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zeus.entity.SysLog" >
+    update sys_log
+    <set >
+      <if test="logType != null" >
+        log_type = #{logType,jdbcType=VARCHAR},
+      </if>
+      <if test="logContent != null" >
+        log_content = #{logContent,jdbcType=VARCHAR},
+      </if>
+      <if test="operationTime != null" >
+        operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="sysType != null" >
+        sys_type = #{sysType,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorRole != null" >
+        operator_role = #{operatorRole,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zeus.entity.SysLog" >
+    update sys_log
+    set log_type = #{logType,jdbcType=VARCHAR},
+      log_content = #{logContent,jdbcType=VARCHAR},
+      operation_time = #{operationTime,jdbcType=TIMESTAMP},
+      operator = #{operator,jdbcType=VARCHAR},
+      sys_type = #{sysType,jdbcType=VARCHAR},
+      operator_role = #{operatorRole,jdbcType=VARCHAR}
+    where log_id = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <classPathEntry
+            location="/Users/aichaellee/.m2/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar"/>
+    <context id="my" targetRuntime="MyBatis3">
+      <property name="beginningDelimiter" value="&quot;"/>
+      <property name="endingDelimiter" value="&quot;"/>
+      <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+      <commentGenerator>
+        <property name="suppressAllComments" value="true" />
+      </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/kegai?characterEncoding=utf8&amp;useSSL=false"
+                        userId="root"
+                        password="itec1234"
+        />
+
+        <javaModelGenerator targetPackage="org.zeus.entity"
+                            targetProject="./cnki-common/src/main/java/">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+      <sqlMapGenerator targetPackage="mybatis.dmsMapper"
+                       targetProject="cnki-web/src/main/resources/">
+        <property name="enableSubPackages" value="false" />
+      </sqlMapGenerator>
+
+        <javaClientGenerator targetPackage="org.zeus.dmsMapper"
+                             targetProject="src/main/java/" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <table schema="public" tableName="%" >
+
+          <columnOverride column="first" javaType="String[]" jdbcType="OTHER" typeHandler="com.manniwood.mmpt.typehandlers.TextArrayTypeHandler" />
+          <columnOverride column="second" javaType="String" jdbcType="OTHER" typeHandler="com.manniwood.mmpt.typehandlers.JSONTypeHandler"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

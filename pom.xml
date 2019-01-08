@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.cnki</groupId>
-  <artifactId>cnki-parent</artifactId>
+  <groupId>org.zeus</groupId>
+  <artifactId>zeus-parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>cnki-web</name>
+  <name>zeus-web</name>
   <packaging>pom</packaging>
   <description>web Spring Boot</description>
 
@@ -17,8 +17,8 @@
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <modules>
-    <module>cnki-common</module>
-    <module>cnki-web</module>
+    <module>zeus-common</module>
+    <module>zeus-web</module>
   </modules>
 
   <properties>
