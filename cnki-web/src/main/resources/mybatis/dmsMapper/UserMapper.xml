@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.cnki.dmsMapper.UserMapper">
+    <resultMap id="BaseResultMap" type="net.cnki.bean.Managers">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="telephone" property="telephone"/>
+        <result column="address" property="address"/>
+        <result column="enabled" property="enabled"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="userface" property="userface"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <resultMap id="lazyLoadRoles" type="net.cnki.bean.Managers" extends="BaseResultMap">
+        <collection property="roles" ofType="net.cnki.bean.Role" select="net.cnki.dmsMapper.UserMapper.getRolesByHrId"
+                    column="id"></collection>
+    </resultMap>
+    <resultMap id="eagerLoadRoles" type="net.cnki.bean.Managers" extends="BaseResultMap">
+        <collection property="roles" ofType="net.cnki.bean.Role">
+            <id property="id" column="rid"/>
+            <result property="name" column="rname"/>
+            <result property="nameZh" column="rnameZh"/>
+        </collection>
+    </resultMap>
+    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+        select * from managers WHERE username=#{username};
+    </select>
+    <select id="getRolesByHrId" resultType="net.cnki.bean.Role">
+        SELECT r.* FROM user_role h,role r where h.rid=r.id AND h.userId=#{id}
+    </select>
+    <insert id="hrReg">
+        INSERT INTO hr set username=#{username},password=#{password}
+    </insert>
+    <select id="getHrsByKeywords" resultMap="eagerLoadRoles">
+        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`managers` `h` left join `user_role`
+        `h_r` on ((`h`.`id` = `h_r`.`userId`))) left join `role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`id` not
+        in(select h_r.`userId` from user_role h_r,role r where h_r.`rid`=r.`id` and r.`nameZh`='系统管理员')
+        <if test="keywords!='all' and keywords!=''">
+            and h.`name` like concat('%',#{keywords},'%')
+        </if>
+        order by h.`id` limit 10
+    </select>
+    <select id="getHrById" resultMap="eagerLoadRoles">
+        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`managers` `h` left join `user_role`
+        `h_r` on ((`h`.`id` = `h_r`.`userId`))) left join `role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`id`=#{hrId}
+    </select>
+    <delete id="deleteRoleByHrId" parameterType="Long">
+        DELETE FROM user_role where userId=#{userId}
+    </delete>
+    <insert id="addRolesForHr">
+        INSERT INTO user_role(userId,rid) VALUES
+        <foreach collection="rids" separator="," item="rid">
+            (#{userId},#{rid})
+        </foreach>
+    </insert>
+</mapper>

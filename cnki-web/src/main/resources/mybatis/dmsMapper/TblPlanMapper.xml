@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.cnki.dmsMapper.TblPlanMapper" >
+  <resultMap id="BaseResultMap" type="net.cnki.bean.TblPlan" >
+    <id column="plan_id" property="planId" jdbcType="INTEGER" />
+    <result column="school_num" property="schoolNum" jdbcType="INTEGER" />
+    <result column="school_year" property="schoolYear" jdbcType="VARCHAR" />
+    <result column="default" property="defaultYear" jdbcType="VARCHAR" />
+    <result column="opentimenode" property="opentimenode" jdbcType="VARCHAR" />
+    <result column="allowset" property="allowset" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="begintime" property="begintime" jdbcType="TIMESTAMP" />
+    <result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    plan_id, school_num, school_year,opentimenode, allowset, createtime, begintime,
+    endtime, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.cnki.bean.TblPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tbl_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_plan
+    where plan_id = #{planId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tbl_plan
+    where plan_id = #{planId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.cnki.bean.TblPlanExample" >
+    delete from tbl_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.cnki.bean.TblPlan" >
+    insert into tbl_plan (plan_id, school_num, school_year, 
+      defaultYear, opentimenode, allowset,
+      createtime, begintime, endtime, 
+      update_time)
+    values (#{planId,jdbcType=INTEGER}, #{schoolNum,jdbcType=INTEGER}, #{schoolYear,jdbcType=VARCHAR}, 
+      #{defaultYear,jdbcType=VARCHAR}, #{opentimenode,jdbcType=VARCHAR}, #{allowset,jdbcType=VARCHAR},
+      #{createtime,jdbcType=TIMESTAMP}, #{begintime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.cnki.bean.TblPlan" >
+    insert into tbl_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        plan_id,
+      </if>
+      <if test="schoolNum != null" >
+        school_num,
+      </if>
+      <if test="schoolYear != null" >
+        school_year,
+      </if>
+      <if test="defaultYear != null" >
+        defaultYear,
+      </if>
+      <if test="opentimenode != null" >
+        opentimenode,
+      </if>
+      <if test="allowset != null" >
+        allowset,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="begintime != null" >
+        begintime,
+      </if>
+      <if test="endtime != null" >
+        endtime,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        #{planId,jdbcType=INTEGER},
+      </if>
+      <if test="schoolNum != null" >
+        #{schoolNum,jdbcType=INTEGER},
+      </if>
+      <if test="schoolYear != null" >
+        #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultYear != null" >
+        #{defaultYear,jdbcType=VARCHAR},
+      </if>
+      <if test="opentimenode != null" >
+        #{opentimenode,jdbcType=VARCHAR},
+      </if>
+      <if test="allowset != null" >
+        #{allowset,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begintime != null" >
+        #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.cnki.bean.TblPlanExample" resultType="java.lang.Integer" >
+    select count(*) from tbl_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tbl_plan
+    <set >
+      <if test="record.planId != null" >
+        plan_id = #{record.planId,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolNum != null" >
+        school_num = #{record.schoolNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.schoolYear != null" >
+        school_year = #{record.schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.defaultYear != null" >
+        defaultYear = #{record.defaultYear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opentimenode != null" >
+        opentimenode = #{record.opentimenode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allowset != null" >
+        allowset = #{record.allowset,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.begintime != null" >
+        begintime = #{record.begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tbl_plan
+    set plan_id = #{record.planId,jdbcType=INTEGER},
+      school_num = #{record.schoolNum,jdbcType=INTEGER},
+      school_year = #{record.schoolYear,jdbcType=VARCHAR},
+    defaultYear = #{record.defaultYear,jdbcType=VARCHAR},
+      opentimenode = #{record.opentimenode,jdbcType=VARCHAR},
+      allowset = #{record.allowset,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      begintime = #{record.begintime,jdbcType=TIMESTAMP},
+      endtime = #{record.endtime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.cnki.bean.TblPlan" >
+    update tbl_plan
+    <set >
+      <if test="schoolNum != null" >
+        school_num = #{schoolNum,jdbcType=INTEGER},
+      </if>
+      <if test="schoolYear != null" >
+        school_year = #{schoolYear,jdbcType=VARCHAR},
+      </if>
+      <if test="defaultYear != null" >
+        defaultYear = #{defaultYear,jdbcType=VARCHAR},
+      </if>
+      <if test="opentimenode != null" >
+        opentimenode = #{opentimenode,jdbcType=VARCHAR},
+      </if>
+      <if test="allowset != null" >
+        allowset = #{allowset,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="begintime != null" >
+        begintime = #{begintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endtime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where plan_id = #{planId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.cnki.bean.TblPlan" >
+    update tbl_plan
+    set school_num = #{schoolNum,jdbcType=INTEGER},
+      school_year = #{schoolYear,jdbcType=VARCHAR},
+      defaultYear = #{defaultYear,jdbcType=VARCHAR},
+      opentimenode = #{opentimenode,jdbcType=VARCHAR},
+      allowset = #{allowset,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      begintime = #{begintime,jdbcType=TIMESTAMP},
+      endtime = #{endtime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where plan_id = #{planId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.cnki.dmsMapper.RoleMapper">
+    <select id="roles" resultType="net.cnki.bean.Role">
+        SELECT * FROM role where id!=6;
+    </select>
+    <insert id="addNewRole">
+        INSERT INTO role set name=#{role},nameZh=#{roleZh}
+    </insert>
+    <delete id="deleteRoleById" parameterType="Long">
+        DELETE FROM role WHERE id=#{rid}
+    </delete>
+    <select id="getRolesByUserId" resultType="net.cnki.bean.Role">
+        select
+        r.*
+        from role r
+        INNER JOIN user_role hr
+        ON r.id = hr.rid
+        where hr.userId = #{userId};
+    </select>
+</mapper>

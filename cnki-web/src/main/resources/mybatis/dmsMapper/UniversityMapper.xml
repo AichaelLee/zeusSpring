@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.cnki.dmsMapper.UniversityMapper">
+	<resultMap type="net.cnki.entity.University" id="resultMap">
+		<id column="school_id" property="schoolId" />
+		<result column="school_name" property="schoolName" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="liaison_name" property="liaisonName" />
+		<result column="liaison_email" property="liaisonEmail" />
+		<result column="property" property="property" />
+		<result column="status" property="status" />
+		<result column="begin_time" property="beginTime" />
+		<result column="expire_time" property="expireTime" />
+		<result column="db_ip" property="dbip" />
+		<result column="db_name" property="dbname" />
+		<result column="domain" property="domain" />
+		<result column="show_school_name" property="showSchoolName" />
+		<result column="system_name" property="systemName" />
+		<result column="sms_admin" property="smsAdmin" />
+		<result column="sms_teacher" property="smsTeacher" />
+		<result column="import_student" property="importStudent" />
+		<result column="check_open" property="checkOpen" />
+		<result column="check_username" property="checkUsername" />
+		<result column="check_password" property="checkPassword" />
+		<result column="check_code" property="checkCode" />
+		<result column="db_user" property="dbUser" />
+		<result column="db_password" property="dbPassword" />
+	</resultMap>
+
+	<insert id="addUniversity">
+		insert into university set school_name
+		=#{university.schoolName},school_id= #{university.schoolNum},city=#{ university.city},liaison_name=#{
+		university.contacts},liaison_phone=#{university.tel}, liaison_email =#{ university.email},province=#{university.province},property = #{university.property},status=#{university.status},
+		begin_time=#{university.begintime}, expire_time=#{university.exportTime}
+
+	</insert>
+
+
+	<select id="queryAllUniversity" resultMap="resultMap">
+		select * from
+		university;
+	</select>
+
+	<select id="findUniversityById" resultMap="resultMap">
+
+		select * from university where school_id = #{schoolNum};
+	</select>
+
+	<update id="updateUniversity" parameterType="map">
+		update
+		university
+		set db_ip=#{database.oldServerIp},db_name
+		=#{database.dbName},db_user=#{database.MysqlUser},db_password=#{database.mysqlPassowrd}
+		where school_id=#{database.oldSchoolNum};
+	</update>
+
+	<select id="queryUniversity">
+		select *
+		from university where 1 =1
+		<if test="schoolNum!=null and schoolNum!='' ">
+			<bind name="pattern" value="'%' + schoolNum + '%'" />
+			and school_id like #{pattern}
+		</if>
+		<if test="schoolName!=null and schoolName!='' ">
+			<bind name="pattern2" value="'%' + schoolName + '%'" />
+			and school_name like #{pattern2}
+		</if>
+		order by begin_time desc
+		<if test="strNum!=null and strRow!=null">
+			limit #{strNum},#{strRow}
+		</if>
+	</select>
+
+
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.cnki.dmsMapper.TeachersMapper">
+    <resultMap id="BaseResultMap" type="net.cnki.bean.TblTeacherBase">
+        <id column="TID" property="id"/>
+        <result column="uername" property="uername"/>
+        <result column="password" property="password"/>
+        <result column="school_num" property="schoolNum"/>
+        <result column="teacher_num" property="teacherNum"/>
+        <result column="teacher_name" property="teacherName"/>
+        <result column="academic_degree" property="academicDegree"/>
+        <result column="graduated_university" property="graduatedUniversity"/>
+        <result column="title" property="title"/>
+        <result column="education" property="education"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="login_token" property="loginToken"/>
+        <result column="create_time" property="createTime"/>
+        <result column="CID" property="cid"/>
+        <result column="APP_KEY" property="appKey"/>
+        <result column="updatetime" property="updatetime"/>
+
+    </resultMap>
+
+    <resultMap id="lazyLoadRoles" type="net.cnki.bean.TblTeacherBase" extends="BaseResultMap">
+        <collection property="roles" ofType="net.cnki.bean.Role" select="net.cnki.dmsMapper.TeachersMapper.getRolesByTeacherId"
+                    column="id"></collection>
+    </resultMap>
+
+    <resultMap id="eagerLoadRoles" type="net.cnki.bean.Role" extends="BaseResultMap">
+        <collection property="roles" ofType="net.cnki.bean.Role">
+            <id property="id" column="rid"/>
+            <result property="name" column="rname"/>
+            <result property="nameZh" column="rnameZh"/>
+        </collection>
+    </resultMap>
+
+    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+        select * from tbl_teacher_base WHERE uername=#{username};
+    </select>
+
+    <select id="getaRolesByTeacherId" resultMap="eagerLoadRoles">
+        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`tbl_teacher_base` `h` left join `user_role`
+        `h_r` on ((`h`.`tid` = `h_r`.`userId`))) left join `role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`tid`=#{tid}
+    </select>
+    <select id="getRolesByTeacherId" resultType="net.cnki.bean.Role">
+       SELECT r.* FROM user_role h,role r where h.rid=r.id AND h.userId=#{id}
+    </select>
+
+    <select id="getAllUsers" resultMap="BaseResultMap">
+        select * from tbl_teacher_base;
+    </select>
+
+    <insert id="addNewUser">
+        insert into tbl_teacher_base set uername=#{username},password=#{password},teacher_name=#{teacherName}
+    </insert>
+    <update id="updateUserInfo">
+        update tbl_teacher_base
+        <set>
+            <if test="teacherName !=null">
+                teacher_name=#{teacherName}
+            </if>
+            <if test="academicDegree !=null">
+                , academic_degree=#{academicDegree}
+            </if>
+            <if test="graduatedUniversity !=null">
+                ,graduated_university=#{graduatedUniversity},
+            </if>
+            <if test="title !=null">
+                ,title=#{title},
+            </if>
+            <if test="password!=null">
+                password=#{password}
+            </if>
+        </set>
+
+        <where>
+            TID = #{id}
+        </where>
+    </update>
+    <update id="updatePassword">
+        update tbl_teacher_base
+        <set>
+            <if test="password!=null">
+                password=#{password}
+            </if>
+        </set>
+
+        <where>
+            TID = #{id}
+        </where>
+
+    </update>
+</mapper>

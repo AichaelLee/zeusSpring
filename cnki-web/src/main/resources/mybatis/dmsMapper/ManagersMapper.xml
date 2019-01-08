@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.cnki.dmsMapper.ManagersMapper">
+    <resultMap id="BaseResultMap" type="net.cnki.bean.Managers">
+        <id column="MID" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="school_number" property="schoolNumber"/>
+        <result column="servers_number" property="serversNumber"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="authority" property="authority"/>
+        <result column="status" property="status"/>
+        <result column="expire_date" property="expireDate"/>
+        <result column="login_token" property="loginToken"/>
+        <result column="prefix" property="prefix"/>
+        <result column="verify_username" property="verifyUsername"/>
+        <result column="verify_password" property="verifyPassword"/>
+        <result column="token" property="token"/>
+        <result column="db_ip" property="dbIp"/>
+        <result column="db_name" property="dbName"/>
+        <result column="verify_username2" property="verifyUsername2"/>
+        <result column="verify_password2" property="verifyPassword2"/>
+        <result column="verify_address2" property="verifyAddress2"/>
+        <result column="createtime" property="createtime"/>
+        <result column="lastmodifytime" property="lastmodifytime"/>
+        <result column="display_scname" property="displayScname"/>
+        <result column="open_scrivener" property="openScrivener"/>
+        <result column="open_scrivener_time" property="openScrivenerTime"/>
+        <result column="group_number" property="groupNumber"/>
+        <result column="sys_name" property="sysName"/>
+        <result column="export_group" property="exportGroup"/>
+        <result column="admin_sms" property="adminSms"/>
+        <result column="teacher_sms" property="teacherSms"/>
+        <result column="verify_upload" property="verifyUpload"/>
+        <result column="stu_batch_import" property="stuBatchImport"/>
+        <result column="import_stu_max" property="importStuMax"/>
+        <result column="forgot_password" property="forgotPassword"/>
+
+    </resultMap>
+    <resultMap id="lazyLoadRoles" type="net.cnki.bean.Managers" extends="BaseResultMap">
+        <collection property="roles" ofType="net.cnki.bean.Role" select="net.cnki.dmsMapper.UserMapper.getRolesByHrId"
+                    column="id"></collection>
+    </resultMap>
+    <resultMap id="eagerLoadRoles" type="net.cnki.bean.Managers" extends="BaseResultMap">
+        <collection property="roles" ofType="net.cnki.bean.Role">
+            <id property="id" column="rid"/>
+            <result property="name" column="rname"/>
+            <result property="nameZh" column="rnameZh"/>
+        </collection>
+    </resultMap>
+    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
+        select * from managers WHERE username=#{username};
+    </select>
+    <select id="getRolesByManagerId" resultType="net.cnki.bean.Role">
+        SELECT r.* FROM user_role h,role r where h.rid=r.id AND h.userId=#{id}
+    </select>
+
+    <select id="getManagerById" resultMap="eagerLoadRoles">
+        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`managers` `h` left join `user_role`
+        `h_r` on ((`h`.`id` = `h_r`.`userId`))) left join `role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`id`=#{hrId}
+    </select>
+    <insert id="addRolesForManager">
+        INSERT INTO user_role(userId,rid) VALUES
+        <foreach collection="rids" separator="," item="rid">
+            (#{userId},#{rid})
+        </foreach>
+    </insert>
+    <select id="getAllManagers" resultType="net.cnki.bean.Managers">
+        select * from managers
+        <if test="currentId!=null">
+            WHERE id !=#{currentId}
+        </if>
+    </select>
+</mapper>
