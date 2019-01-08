@@ -24,6 +24,12 @@ public class ZeusDmsApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ZeusDmsApplication.class, args);
 	}
+
+    /**
+     * 这段配置是当程序运行在云端的redis的时候，为了安全，云厂商会关闭config
+     * 命令，所以在这设置一下，如果是本地部署redis的话，这段配置可以去掉
+     * @return
+     */
     @Bean
     public ConfigureRedisAction configureRedisAction() {
         return ConfigureRedisAction.NO_OP;
