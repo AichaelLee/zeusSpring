@@ -5,6 +5,7 @@ import org.zeus.bean.Managers;
 import org.zeus.bean.RespBean;
 import org.zeus.bean.TblTeacherBase;
 import org.zeus.common.CustomUserTypeAuthenticationFilter;
+import org.zeus.common.SmsCodeAuthenticationSecurityConfig;
 import org.zeus.common.fw.LogType;
 import org.zeus.common.util.IpInfoUtil;
 import org.zeus.dmsMapper.SysLogMapper;
@@ -62,6 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     IpInfoUtil ipInfoUtil;
 
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
 //    @Autowired
 //    BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -104,11 +108,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
                 // loginPage("/login_p"). todo
         .formLogin().loginPage("/login_p").loginProcessingUrl("/login")
-        .usernameParameter("username").passwordParameter("password")
+
+//        .usernameParameter("username").passwordParameter("password")
         .failureHandler(new CustomAuthenticationFailureHandler())
         .successHandler(new CustomAuthenticationSuccessHandler())
         .permitAll()
         .and()
+            .apply(smsCodeAuthenticationSecurityConfig).and()
         .logout().permitAll()
         .and().csrf().disable()
         .exceptionHandling().accessDeniedHandler(deniedHandler);
