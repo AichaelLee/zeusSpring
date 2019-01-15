@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.zeus.dmsMapper.FlowFormContentMapper" >
+  <resultMap id="BaseResultMap" type="org.zeus.entity.FlowFormContent" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="form_id" property="formId" jdbcType="INTEGER" />
+    <result column="attr_id" property="attrId" jdbcType="INTEGER" />
+    <result column="attr_value" property="attrValue" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="operationLog_type" property="operationlogType" jdbcType="VARCHAR" />
+    <result column="operation_id" property="operationId" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, form_id, attr_id, attr_value, create_time, operationLog_type, operation_id, project_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.zeus.entity.FlowFormContentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flow_form_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from flow_form_content
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from flow_form_content
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.zeus.entity.FlowFormContentExample" >
+    delete from flow_form_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.zeus.entity.FlowFormContent" >
+    insert into flow_form_content (id, form_id, attr_id, 
+      attr_value, create_time, operationLog_type, 
+      operation_id, project_id)
+    values (#{id,jdbcType=INTEGER}, #{formId,jdbcType=INTEGER}, #{attrId,jdbcType=INTEGER}, 
+      #{attrValue,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{operationlogType,jdbcType=VARCHAR}, 
+      #{operationId,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zeus.entity.FlowFormContent" >
+    insert into flow_form_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="formId != null" >
+        form_id,
+      </if>
+      <if test="attrId != null" >
+        attr_id,
+      </if>
+      <if test="attrValue != null" >
+        attr_value,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="operationlogType != null" >
+        operationLog_type,
+      </if>
+      <if test="operationId != null" >
+        operation_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="formId != null" >
+        #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="attrId != null" >
+        #{attrId,jdbcType=INTEGER},
+      </if>
+      <if test="attrValue != null" >
+        #{attrValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operationlogType != null" >
+        #{operationlogType,jdbcType=VARCHAR},
+      </if>
+      <if test="operationId != null" >
+        #{operationId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.zeus.entity.FlowFormContentExample" resultType="java.lang.Integer" >
+    select count(*) from flow_form_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flow_form_content
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.formId != null" >
+        form_id = #{record.formId,jdbcType=INTEGER},
+      </if>
+      <if test="record.attrId != null" >
+        attr_id = #{record.attrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.attrValue != null" >
+        attr_value = #{record.attrValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operationlogType != null" >
+        operationLog_type = #{record.operationlogType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationId != null" >
+        operation_id = #{record.operationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flow_form_content
+    set id = #{record.id,jdbcType=INTEGER},
+      form_id = #{record.formId,jdbcType=INTEGER},
+      attr_id = #{record.attrId,jdbcType=INTEGER},
+      attr_value = #{record.attrValue,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      operationLog_type = #{record.operationlogType,jdbcType=VARCHAR},
+      operation_id = #{record.operationId,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zeus.entity.FlowFormContent" >
+    update flow_form_content
+    <set >
+      <if test="formId != null" >
+        form_id = #{formId,jdbcType=INTEGER},
+      </if>
+      <if test="attrId != null" >
+        attr_id = #{attrId,jdbcType=INTEGER},
+      </if>
+      <if test="attrValue != null" >
+        attr_value = #{attrValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operationlogType != null" >
+        operationLog_type = #{operationlogType,jdbcType=VARCHAR},
+      </if>
+      <if test="operationId != null" >
+        operation_id = #{operationId,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zeus.entity.FlowFormContent" >
+    update flow_form_content
+    set form_id = #{formId,jdbcType=INTEGER},
+      attr_id = #{attrId,jdbcType=INTEGER},
+      attr_value = #{attrValue,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      operationLog_type = #{operationlogType,jdbcType=VARCHAR},
+      operation_id = #{operationId,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

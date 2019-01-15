@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.zeus.dmsMapper.FlowStepRuleMapper" >
+  <resultMap id="BaseResultMap" type="org.zeus.entity.FlowStepRule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="attr_id" property="attrId" jdbcType="INTEGER" />
+    <result column="operators" property="operators" jdbcType="VARCHAR" />
+    <result column="threshold" property="threshold" jdbcType="VARCHAR" />
+    <result column="next_step" property="nextStep" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, step_id, attr_id, operators, threshold, next_step
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.zeus.entity.FlowStepRuleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flow_step_rule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from flow_step_rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from flow_step_rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.zeus.entity.FlowStepRuleExample" >
+    delete from flow_step_rule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.zeus.entity.FlowStepRule" >
+    insert into flow_step_rule (id, step_id, attr_id, 
+      operators, threshold, next_step
+      )
+    values (#{id,jdbcType=INTEGER}, #{stepId,jdbcType=INTEGER}, #{attrId,jdbcType=INTEGER}, 
+      #{operators,jdbcType=VARCHAR}, #{threshold,jdbcType=VARCHAR}, #{nextStep,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.zeus.entity.FlowStepRule" >
+    insert into flow_step_rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="attrId != null" >
+        attr_id,
+      </if>
+      <if test="operators != null" >
+        operators,
+      </if>
+      <if test="threshold != null" >
+        threshold,
+      </if>
+      <if test="nextStep != null" >
+        next_step,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="attrId != null" >
+        #{attrId,jdbcType=INTEGER},
+      </if>
+      <if test="operators != null" >
+        #{operators,jdbcType=VARCHAR},
+      </if>
+      <if test="threshold != null" >
+        #{threshold,jdbcType=VARCHAR},
+      </if>
+      <if test="nextStep != null" >
+        #{nextStep,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.zeus.entity.FlowStepRuleExample" resultType="java.lang.Integer" >
+    select count(*) from flow_step_rule
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flow_step_rule
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepId != null" >
+        step_id = #{record.stepId,jdbcType=INTEGER},
+      </if>
+      <if test="record.attrId != null" >
+        attr_id = #{record.attrId,jdbcType=INTEGER},
+      </if>
+      <if test="record.operators != null" >
+        operators = #{record.operators,jdbcType=VARCHAR},
+      </if>
+      <if test="record.threshold != null" >
+        threshold = #{record.threshold,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nextStep != null" >
+        next_step = #{record.nextStep,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flow_step_rule
+    set id = #{record.id,jdbcType=INTEGER},
+      step_id = #{record.stepId,jdbcType=INTEGER},
+      attr_id = #{record.attrId,jdbcType=INTEGER},
+      operators = #{record.operators,jdbcType=VARCHAR},
+      threshold = #{record.threshold,jdbcType=VARCHAR},
+      next_step = #{record.nextStep,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zeus.entity.FlowStepRule" >
+    update flow_step_rule
+    <set >
+      <if test="stepId != null" >
+        step_id = #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="attrId != null" >
+        attr_id = #{attrId,jdbcType=INTEGER},
+      </if>
+      <if test="operators != null" >
+        operators = #{operators,jdbcType=VARCHAR},
+      </if>
+      <if test="threshold != null" >
+        threshold = #{threshold,jdbcType=VARCHAR},
+      </if>
+      <if test="nextStep != null" >
+        next_step = #{nextStep,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zeus.entity.FlowStepRule" >
+    update flow_step_rule
+    set step_id = #{stepId,jdbcType=INTEGER},
+      attr_id = #{attrId,jdbcType=INTEGER},
+      operators = #{operators,jdbcType=VARCHAR},
+      threshold = #{threshold,jdbcType=VARCHAR},
+      next_step = #{nextStep,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

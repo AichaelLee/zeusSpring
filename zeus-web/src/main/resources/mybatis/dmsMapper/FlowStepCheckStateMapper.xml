@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.zeus.dmsMapper.FlowStepCheckStateMapper" >
+  <resultMap id="BaseResultMap" type="org.zeus.entity.FlowStepCheckState" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="step_id" property="stepId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="isEnd" property="isend" jdbcType="VARCHAR" />
+    <result column="operationlog_type" property="operationlogType" jdbcType="VARCHAR" />
+    <result column="operation_id" property="operationId" jdbcType="INTEGER" />
+    <result column="auditor" property="auditor" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, step_id, state, create_time, isEnd, operationlog_type, operation_id, auditor, 
+    project_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.zeus.entity.FlowStepCheckStateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from flow_step_check_state
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from flow_step_check_state
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from flow_step_check_state
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.zeus.entity.FlowStepCheckStateExample" >
+    delete from flow_step_check_state
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.zeus.entity.FlowStepCheckState" >
+    insert into flow_step_check_state (id, step_id, state, 
+      create_time, isEnd, operationlog_type, 
+      operation_id, auditor, project_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{stepId,jdbcType=INTEGER}, #{state,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{isend,jdbcType=VARCHAR}, #{operationlogType,jdbcType=VARCHAR}, 
+      #{operationId,jdbcType=INTEGER}, #{auditor,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.zeus.entity.FlowStepCheckState" >
+    insert into flow_step_check_state
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="stepId != null" >
+        step_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isend != null" >
+        isEnd,
+      </if>
+      <if test="operationlogType != null" >
+        operationlog_type,
+      </if>
+      <if test="operationId != null" >
+        operation_id,
+      </if>
+      <if test="auditor != null" >
+        auditor,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isend != null" >
+        #{isend,jdbcType=VARCHAR},
+      </if>
+      <if test="operationlogType != null" >
+        #{operationlogType,jdbcType=VARCHAR},
+      </if>
+      <if test="operationId != null" >
+        #{operationId,jdbcType=INTEGER},
+      </if>
+      <if test="auditor != null" >
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.zeus.entity.FlowStepCheckStateExample" resultType="java.lang.Integer" >
+    select count(*) from flow_step_check_state
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flow_step_check_state
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.stepId != null" >
+        step_id = #{record.stepId,jdbcType=INTEGER},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isend != null" >
+        isEnd = #{record.isend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationlogType != null" >
+        operationlog_type = #{record.operationlogType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operationId != null" >
+        operation_id = #{record.operationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.auditor != null" >
+        auditor = #{record.auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flow_step_check_state
+    set id = #{record.id,jdbcType=INTEGER},
+      step_id = #{record.stepId,jdbcType=INTEGER},
+      state = #{record.state,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      isEnd = #{record.isend,jdbcType=VARCHAR},
+      operationlog_type = #{record.operationlogType,jdbcType=VARCHAR},
+      operation_id = #{record.operationId,jdbcType=INTEGER},
+      auditor = #{record.auditor,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zeus.entity.FlowStepCheckState" >
+    update flow_step_check_state
+    <set >
+      <if test="stepId != null" >
+        step_id = #{stepId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isend != null" >
+        isEnd = #{isend,jdbcType=VARCHAR},
+      </if>
+      <if test="operationlogType != null" >
+        operationlog_type = #{operationlogType,jdbcType=VARCHAR},
+      </if>
+      <if test="operationId != null" >
+        operation_id = #{operationId,jdbcType=INTEGER},
+      </if>
+      <if test="auditor != null" >
+        auditor = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zeus.entity.FlowStepCheckState" >
+    update flow_step_check_state
+    set step_id = #{stepId,jdbcType=INTEGER},
+      state = #{state,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      isEnd = #{isend,jdbcType=VARCHAR},
+      operationlog_type = #{operationlogType,jdbcType=VARCHAR},
+      operation_id = #{operationId,jdbcType=INTEGER},
+      auditor = #{auditor,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
