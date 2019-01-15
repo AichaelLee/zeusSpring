@@ -1,16 +1,6 @@
 package org.zeus.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.zeus.bean.Managers;
-import org.zeus.bean.RespBean;
-import org.zeus.bean.TblTeacherBase;
-import org.zeus.common.CustomUserTypeAuthenticationFilter;
-import org.zeus.common.SmsCodeAuthenticationSecurityConfig;
-import org.zeus.common.fw.LogType;
-import org.zeus.common.util.IpInfoUtil;
-import org.zeus.dmsMapper.SysLogMapper;
-import org.zeus.entity.SysLog;
-import org.zeus.service.SecurityUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +21,20 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
+import org.zeus.bean.Managers;
+import org.zeus.bean.RespBean;
+import org.zeus.bean.TblTeacherBase;
+import org.zeus.common.CustomUserTypeAuthenticationFilter;
+import org.zeus.common.SmsCodeAuthenticationSecurityConfig;
+import org.zeus.common.fw.LogType;
+import org.zeus.common.util.IpInfoUtil;
+import org.zeus.common.validator.ValidateCodeSecurityConfig;
+import org.zeus.dmsMapper.SysLogMapper;
+import org.zeus.entity.SysLog;
+import org.zeus.service.SecurityUserDetailService;
 
+import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -62,6 +65,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     IpInfoUtil ipInfoUtil;
+
+    /**
+     * 校验码相关过滤器配置
+     */
+    @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+    @Autowired
+    private Filter validateCodeFilter;
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -95,6 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // druid 或 swagger 的iframe加载
         http.headers().frameOptions().sameOrigin();
+        //校验码相关配置
+       // http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
         .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {

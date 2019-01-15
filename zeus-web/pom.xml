@@ -83,12 +83,16 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.alibaba</groupId>-->
+			<!--<artifactId>druid</artifactId>-->
+			<!--<version>1.1.0</version>-->
+		<!--</dependency>-->
 		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.1.0</version>
+		<groupId>com.alibaba</groupId>
+		<artifactId>druid-spring-boot-starter</artifactId>
+		<version>1.1.10</version>
 		</dependency>
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -129,7 +133,17 @@
 			<artifactId>fastdfs-client</artifactId>
 			<version>1.25.3-RELEASE</version>
 		</dependency>
-        <!--<dependency>-->
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-web</artifactId>
+      <version>1.1.4.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.social</groupId>
+      <artifactId>spring-social-web</artifactId>
+      <version>1.1.4.RELEASE</version>
+    </dependency>
+    <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
             <!--<artifactId>spring-boot-starter-actuator</artifactId>-->
         <!--</dependency>-->
