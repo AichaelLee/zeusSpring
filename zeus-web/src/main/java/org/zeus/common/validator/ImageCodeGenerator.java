@@ -4,6 +4,7 @@
 package org.zeus.common.validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -13,10 +14,10 @@ import java.util.Random;
 
 /**
  * 默认的图片验证码生成器
- * @author zhailiang
+ * @author lizhizhong
  *
  */
-@org.springframework.stereotype.Component
+@Component("imageValidateCodeGenerator")
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
 	/**
@@ -24,14 +25,12 @@ public class ImageCodeGenerator implements ValidateCodeGenerator {
 	 */
 	@Autowired
 	private SecurityProperties securityProperties;
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.imooc.security.core.validate.code.ValidateCodeGenerator#generate(org.
-	 * springframework.web.context.request.ServletWebRequest)
-	 */
+
+    /**
+     * 生成图片验证码
+     * @param request
+     * @return
+     */
 	@Override
 	public ImageCode generate(ServletWebRequest request) {
 		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",

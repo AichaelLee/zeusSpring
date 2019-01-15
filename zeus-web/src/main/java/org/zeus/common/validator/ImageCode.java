@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * 图片验证码
- * @author zhailiang
+ * @author lizhizhong
  *
  */
 public class ImageCode extends ValidateCode {

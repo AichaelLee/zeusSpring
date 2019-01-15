@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * 抽象的图片验证码处理器
- * @author zhailiang
+ * @author lizhizhong
  *
  */
 public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
@@ -29,13 +29,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 	private ValidateCodeRepository validateCodeRepository;
 	
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.imooc.security.core.validate.code.ValidateCodeProcessor#create(org.
-	 * springframework.web.context.request.ServletWebRequest)
-	 */
+
 	@Override
 	public void create(ServletWebRequest request) throws Exception {
 		C validateCode = generate(request);
