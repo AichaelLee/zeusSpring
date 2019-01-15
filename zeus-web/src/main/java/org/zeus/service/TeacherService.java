@@ -27,6 +27,10 @@ public class TeacherService {
         return teachersMapper.loadUserByUsername(username);
     }
 
+    public TblTeacherBase loadTeachertByMobile(String mobile){
+        return teachersMapper.loadUserByMobile(mobile);
+    }
+
     public List<Role> getRolesByTeacherId(Long id){
 
         return teachersMapper.getRolesByTeacherId(id);

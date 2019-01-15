@@ -31,7 +31,7 @@ public class SecurityMobileUserDetailService implements UserDetailsService{
     public UserDetails loadUserByUsername(String mobile) throws UsernameNotFoundException {
 
         System.out.println("mobile phone is :"+mobile);
-        return teacherUserDetailService.loadUserByUsername("admin");
+        return teacherUserDetailService.loadUserByMobile(mobile);
 
 
     }

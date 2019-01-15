@@ -36,7 +36,7 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-
+        http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
         //自定义SmsCodeAuthenticationFilter过滤器
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
         smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));

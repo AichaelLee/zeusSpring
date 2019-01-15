@@ -108,7 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // druid 或 swagger 的iframe加载
         http.headers().frameOptions().sameOrigin();
         // 添加图片或手机验证码过滤器
-        http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class)
+        //http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class)
         //校验码相关配置
        // http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)

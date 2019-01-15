@@ -18,6 +18,8 @@ public interface TeachersMapper {
      * @return
      */
     TblTeacherBase loadUserByUsername(String username);
+    TblTeacherBase loadUserByMobile(String mobile);
+
 
     /**
      * 根据用户名得到用户的角色

@@ -43,6 +43,9 @@
     <select id="loadUserByUsername" resultMap="lazyLoadRoles">
         select * from tbl_teacher_base WHERE uername=#{username};
     </select>
+  <select id="loadUserByMobile" resultMap="lazyLoadRoles">
+     select * from tbl_teacher_base WHERE mobile=#{mobile};
+  </select>
 
     <select id="getaRolesByTeacherId" resultMap="eagerLoadRoles">
         select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`tbl_teacher_base` `h` left join `user_role`

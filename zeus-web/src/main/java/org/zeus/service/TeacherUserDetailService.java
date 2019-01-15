@@ -34,6 +34,20 @@ public class TeacherUserDetailService {
         return teacherBase;
 
     }
+    public UserDetails loadUserByMobile(String username) throws UsernameNotFoundException {
+
+        TblTeacherBase teacherBase = teacherService.loadTeachertByMobile(username);
+
+
+        if (teacherBase == null) {
+
+            throw new UsernameNotFoundException("手机号不存在！");
+        }
+        List<Role> roles = teacherService.getRolesByTeacherId(teacherBase.getId());
+        teacherBase.setRoles(roles);
+        return teacherBase;
+
+    }
 
 
 }
