@@ -29,6 +29,7 @@ import org.zeus.common.CustomUserTypeAuthenticationFilter;
 import org.zeus.common.SmsCodeAuthenticationSecurityConfig;
 import org.zeus.common.fw.LogType;
 import org.zeus.common.util.IpInfoUtil;
+import org.zeus.common.validator.ValidateCodeFilter;
 import org.zeus.common.validator.ValidateCodeSecurityConfig;
 import org.zeus.dmsMapper.SysLogMapper;
 import org.zeus.entity.SysLog;
@@ -72,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
-    private Filter validateCodeFilter;
+    private ValidateCodeFilter validateCodeFilter;
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -106,6 +107,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // druid 或 swagger 的iframe加载
         http.headers().frameOptions().sameOrigin();
+        // 添加图片或手机验证码过滤器
+        http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class)
         //校验码相关配置
        // http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class);
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class)

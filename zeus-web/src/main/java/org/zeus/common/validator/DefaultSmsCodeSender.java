@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * 默认的短信验证码发送器
  * 
- * @author zhailiang
+ * @author lizhizhong
  *
  */
 @Component("smsCodeSender")

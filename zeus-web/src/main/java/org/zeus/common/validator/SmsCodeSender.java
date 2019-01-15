@@ -4,7 +4,7 @@
 package org.zeus.common.validator;
 
 /**
- * @author zhailiang
+ * @author lizhizhong
  *
  */
 public interface SmsCodeSender {

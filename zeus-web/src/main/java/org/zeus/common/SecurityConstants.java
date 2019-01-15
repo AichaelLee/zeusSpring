@@ -33,8 +33,7 @@ public interface SecurityConstants {
 	String DEFAULT_SIGN_IN_PROCESSING_URL_OPENID = "/authentication/openid";
 	/**
 	 * 默认登录页面
-	 * 
-	 * @see SecurityController
+	 *
 	 */
 	String DEFAULT_SIGN_IN_PAGE_URL = "/imooc-signIn.html";
 	/**

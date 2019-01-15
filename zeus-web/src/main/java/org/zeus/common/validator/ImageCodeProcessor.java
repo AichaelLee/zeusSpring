@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 /**
  * 图片验证码处理器
  * 
- * @author zhailiang
+ * @author lizhizhong
  *
  */
 @Component("imageValidateCodeProcessor")

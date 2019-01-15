@@ -5,7 +5,7 @@ package org.zeus.common.validator;
 
 /**
  * 验证码配置
- * @author zhailiang
+ * @author lizhizhong
  *
  */
 public class ValidateCodeProperties {
