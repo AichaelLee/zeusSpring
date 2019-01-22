@@ -5,6 +5,7 @@
 [中文文档]() [英文文档]()
 
 ## 项目演示
+[我的博客](http://www.aichaellee.com)
 [在线演示](https://zeus-web.herokuapp.com/index.html)
 
 > 注意：目前项目部署在heroku,因为使用免费dyno，长时间没有http请求服务器会进入到休眠状态，所以第一次访问会有
