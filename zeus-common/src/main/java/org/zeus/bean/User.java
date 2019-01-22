@@ -7,61 +7,41 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TblTeacherBase extends UserBase implements UserDetails {
+public class User extends UserBase implements UserDetails, Serializable {
     private Long id;
 
-    private String uername;
+    private String username;
 
-    private String password;
-
-    private Integer schoolNum;
-
-    private Integer teacherNum;
-
-    private String teacherName;
-
-    private String academicDegree;
-
-    private String graduatedUniversity;
-
-    private String title;
-
-    private String education;
-
-    private Byte sex;
-
-    private Integer age;
-
-    private String mobile;
+    private String name;
 
     private String email;
 
-    private String status;
+    private String password;
 
-    private String loginToken;
+    private String lastLogin;
 
-    private Date createTime;
+    private String createdTime;
 
-    private String cid;
+    private String accountStatus;
 
-    private String appKey;
+    private String photo;
 
-    private Date updatetime;
+    private String deletedflag;
 
+    private Integer mobile;
+
+    private Date updateTime;
     private List<Role> roles;
 
-    private Integer planId;
-
     private static final long serialVersionUID = 1L;
-
 
     @JsonIgnore
     @Override
@@ -70,7 +50,7 @@ public class TblTeacherBase extends UserBase implements UserDetails {
         for (Role role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
-       // authorities.add(new SimpleGrantedAuthority("ROLE_dean"));
+        // authorities.add(new SimpleGrantedAuthority("ROLE_dean"));
         return authorities;
     }
 
@@ -83,7 +63,7 @@ public class TblTeacherBase extends UserBase implements UserDetails {
     @JsonIgnore
     @Override
     public String getUsername() {
-        return uername;
+        return name;
     }
 
 

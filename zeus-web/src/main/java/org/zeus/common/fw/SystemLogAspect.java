@@ -2,7 +2,8 @@ package org.zeus.common.fw;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.zeus.bean.TblTeacherBase;
+import org.zeus.bean.User;
+import org.zeus.common.UserUtils;
 import org.zeus.common.fw.annotation.SystemLog;
 import org.zeus.common.util.IpInfoUtil;
 import org.zeus.dmsMapper.SysLogMapper;
@@ -16,7 +17,6 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NamedThreadLocal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,7 +79,7 @@ public class SystemLogAspect {
     @After("controllerAspect()")
     public void after(JoinPoint joinPoint){
         try {
-            TblTeacherBase user = (TblTeacherBase) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User user = UserUtils.getCurrentUser();
             String username= user.getUsername();
 
             if (StringUtils.isNotBlank(username)) {
@@ -103,7 +103,7 @@ public class SystemLogAspect {
                 //output log
                 Long totalTime = endTime - beginTime;
                 log.info("操作人姓名为:{},操作人角色为:{},操作类型为:{},操作内容{}",
-                        user.getTeacherName(),user.getAuthorities().toString(),logType.getDesc(),description);
+                        user.getName(),user.getAuthorities().toString(),logType.getDesc(),description);
                 log.info("{} 操作开始时间为: {} 共耗时 {} 微秒",operationName,startTime,totalTime);
                 log.info("{} bigin at {},and consume total {} milliseconds",operationName,startTime,totalTime);
                 // 数据库中插入操作记录
@@ -113,7 +113,7 @@ public class SystemLogAspect {
                                 o->o.getNameZh()).
                                 collect(Collectors.joining(",")));
                 sysLog.setLogType(logType.getDesc());
-                sysLog.setOperator(user.getTeacherName());
+                sysLog.setOperator(user.getName());
                 sysLog.setLogContent(description);
                 sysLog.setOperationTime(new Date());
                 sysLog.setIpAddress(ipInfoUtil.getIpAddr(request));

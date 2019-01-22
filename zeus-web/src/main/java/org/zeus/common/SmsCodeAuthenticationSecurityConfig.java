@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.stereotype.Component;
 import org.zeus.bean.RespBean;
-import org.zeus.bean.TblTeacherBase;
 import org.zeus.service.SecurityMobileUserDetailService;
 
 import javax.servlet.Filter;
@@ -64,7 +63,7 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
 
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-                respBean =RespBean.ok("登录成功!",  ((TblTeacherBase) principal));
+                respBean =RespBean.ok("登录成功!",  UserUtils.getCurrentUser());
             // 登录日志记录
             // 数据库中插入操作记录
 

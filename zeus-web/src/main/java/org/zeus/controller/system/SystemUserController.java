@@ -3,12 +3,13 @@ package org.zeus.controller.system;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.zeus.bean.TblTeacherBase;
+import org.zeus.bean.User;
+import org.zeus.bean.UserExample;
 import org.zeus.common.ServerResponse;
 import org.zeus.common.UserUtils;
 import org.zeus.common.fw.LogType;
 import org.zeus.common.fw.annotation.SystemLog;
-import org.zeus.dmsMapper.TblPlanMapper;
+import org.zeus.dmsMapper.UserMapper;
 import org.zeus.dto.PassWordResetResource;
 import org.zeus.dto.UserInfoUpdateForm;
 import org.zeus.dto.UserRegister;
@@ -18,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.zeus.service.*;
 
 import java.util.List;
 
@@ -40,12 +40,6 @@ public class SystemUserController {
     MenuRoleService menuRoleService;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    TblPlanMapper tblPlanMapper;
-
-    @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**切换用户选择的角色**/
@@ -53,7 +47,10 @@ public class SystemUserController {
     RestAuthentication restAuthentication;
 
     @Autowired
-    private TeacherService teacherService;
+    private UserAndRoleService userAndRoleService;
+
+    @Autowired
+    UserMapper userMapper;
 
 
 
@@ -68,7 +65,7 @@ public class SystemUserController {
 
         String encodePass = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodePass);
-        teacherService.addNewUser(user);
+        userAndRoleService.addNewUser(user);
         return ServerResponse.createBySuccess("用户添加成功!");
 
     }
@@ -80,9 +77,10 @@ public class SystemUserController {
     @ApiOperation(value = "得到所有用户",notes="得到系统中的用户列表")
     @GetMapping("users")
     @SystemLog(description="查询系统中的所有用户",type= LogType.OPERATION )
-    public ServerResponse<List<TblTeacherBase>> getAllUser(){
-        List<TblTeacherBase> lists = teacherService.getAllUsers();
-        lists.forEach(o-> o.setRoles(teacherService.getRolesByTeacherId(o.getId())));
+    public ServerResponse<List<User>> getAllUser(){
+        UserExample example = new UserExample();
+        List<User> lists = userMapper.selectByExample(example);
+        lists.forEach(o-> o.setRoles(userAndRoleService.getRolesByUserId(o.getId())));
 
         return ServerResponse.createBySuccess(lists);
     }
@@ -99,7 +97,7 @@ public class SystemUserController {
         if(userInfo.isEmpty()){
             return ServerResponse.createBySuccess("请填写需要修改的个人信息");
         }
-        return teacherService.updateUserInfo(userInfo);
+        return userAndRoleService.updateUserInfo(userInfo);
     }
 
     @ApiOperation(value = "修改密码",notes="用户修改个人密码")
@@ -112,12 +110,12 @@ public class SystemUserController {
             return ServerResponse.createByError(bindingResult.getFieldError().getDefaultMessage());
         }
 
-        TblTeacherBase user = teacherService.loadTeachertByName(UserUtils.getCurrentUser().getUername());
+        User user = userMapper.selectByPrimaryKey(UserUtils.getCurrentUser().getId().intValue());
         if(bCryptPasswordEncoder.matches(oldPassword,user.getPassword())){
             // 更新密码
             user.setPassword(bCryptPasswordEncoder.encode(form.getPassword()));
             // update
-            teacherService.updatePassword(user);
+            userMapper.updateByPrimaryKey(user);
             return ServerResponse.createBySuccess("密码更新成功");
         }else{
             return ServerResponse.createByError("密码更新失败！");

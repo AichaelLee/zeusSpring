@@ -1,60 +1,306 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.zeus.dmsMapper.UserMapper">
-    <resultMap id="BaseResultMap" type="org.zeus.bean.Managers">
-        <id column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="phone" property="phone"/>
-        <result column="telephone" property="telephone"/>
-        <result column="address" property="address"/>
-        <result column="enabled" property="enabled"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="userface" property="userface"/>
-        <result column="remark" property="remark"/>
-    </resultMap>
-    <resultMap id="lazyLoadRoles" type="org.zeus.bean.Managers" extends="BaseResultMap">
-        <collection property="roles" ofType="org.zeus.bean.Role" select="org.zeus.dmsMapper.UserMapper.getRolesByHrId"
-                    column="id"></collection>
-    </resultMap>
-    <resultMap id="eagerLoadRoles" type="org.zeus.bean.Managers" extends="BaseResultMap">
-        <collection property="roles" ofType="org.zeus.bean.Role">
-            <id property="id" column="rid"/>
-            <result property="name" column="rname"/>
-            <result property="nameZh" column="rnameZh"/>
-        </collection>
-    </resultMap>
-    <select id="loadUserByUsername" resultMap="lazyLoadRoles">
-        select * from managers WHERE username=#{username};
-    </select>
-    <select id="getRolesByHrId" resultType="org.zeus.bean.Role">
-        SELECT r.* FROM user_role h,role r where h.rid=r.id AND h.userId=#{id}
-    </select>
-    <insert id="hrReg">
-        INSERT INTO hr set username=#{username},password=#{password}
-    </insert>
-    <select id="getHrsByKeywords" resultMap="eagerLoadRoles">
-        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`managers` `h` left join `user_role`
-        `h_r` on ((`h`.`id` = `h_r`.`userId`))) left join `role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`id` not
-        in(select h_r.`userId` from user_role h_r,role r where h_r.`rid`=r.`id` and r.`nameZh`='系统管理员')
-        <if test="keywords!='all' and keywords!=''">
-            and h.`name` like concat('%',#{keywords},'%')
+  <resultMap id="BaseResultMap" type="org.zeus.bean.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="last_login" jdbcType="VARCHAR" property="lastLogin" />
+    <result column="created_time" jdbcType="VARCHAR" property="createdTime" />
+    <result column="account_status" jdbcType="VARCHAR" property="accountStatus" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="deletedflag" jdbcType="VARCHAR" property="deletedflag" />
+    <result column="mobile" jdbcType="INTEGER" property="mobile" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
         </if>
-        order by h.`id` limit 10
-    </select>
-    <select id="getHrById" resultMap="eagerLoadRoles">
-        select h.*,`r`.`id` AS `rid`,`r`.`name` AS `rname`,`r`.`nameZh` AS `rnameZh` from ((`managers` `h` left join `user_role`
-        `h_r` on ((`h`.`id` = `h_r`.`userId`))) left join `role` `r` on ((`h_r`.`rid` = `r`.`id`))) where h.`id`=#{hrId}
-    </select>
-    <delete id="deleteRoleByHrId" parameterType="Long">
-        DELETE FROM user_role where userId=#{userId}
-    </delete>
-    <insert id="addRolesForHr">
-        INSERT INTO user_role(userId,rid) VALUES
-        <foreach collection="rids" separator="," item="rid">
-            (#{userId},#{rid})
-        </foreach>
-    </insert>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, email, password, last_login, created_time, account_status, photo, deletedflag, 
+    mobile, update_time
+  </sql>
+  <select id="selectByExample" parameterType="org.zeus.bean.UserExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.zeus.bean.UserExample">
+    delete from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.zeus.bean.User">
+    insert into user (id, name, email, 
+      password, last_login, created_time, 
+      account_status, photo, deletedflag, 
+      mobile, update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{lastLogin,jdbcType=VARCHAR}, #{createdTime,jdbcType=VARCHAR}, 
+      #{accountStatus,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{deletedflag,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.zeus.bean.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="lastLogin != null">
+        last_login,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="accountStatus != null">
+        account_status,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="deletedflag != null">
+        deletedflag,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null">
+        #{lastLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedflag != null">
+        #{deletedflag,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.zeus.bean.UserExample" resultType="java.lang.Integer">
+    select count(*) from user
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update user
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastLogin != null">
+        last_login = #{record.lastLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null">
+        created_time = #{record.createdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountStatus != null">
+        account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.photo != null">
+        photo = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deletedflag != null">
+        deletedflag = #{record.deletedflag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null">
+        mobile = #{record.mobile,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update user
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      last_login = #{record.lastLogin,jdbcType=VARCHAR},
+      created_time = #{record.createdTime,jdbcType=VARCHAR},
+      account_status = #{record.accountStatus,jdbcType=VARCHAR},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      deletedflag = #{record.deletedflag,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.zeus.bean.User">
+    update user
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null">
+        last_login = #{lastLogin,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null">
+        created_time = #{createdTime,jdbcType=VARCHAR},
+      </if>
+      <if test="accountStatus != null">
+        account_status = #{accountStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedflag != null">
+        deletedflag = #{deletedflag,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.zeus.bean.User">
+    update user
+    set name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      last_login = #{lastLogin,jdbcType=VARCHAR},
+      created_time = #{createdTime,jdbcType=VARCHAR},
+      account_status = #{accountStatus,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      deletedflag = #{deletedflag,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

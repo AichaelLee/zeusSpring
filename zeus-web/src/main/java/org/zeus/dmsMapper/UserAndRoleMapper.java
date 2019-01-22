@@ -1,7 +1,6 @@
 package org.zeus.dmsMapper;
 
 import org.zeus.bean.Role;
-import org.zeus.bean.TblTeacherBase;
 import org.zeus.dto.UserInfoUpdateForm;
 import org.zeus.dto.UserRegister;
 
@@ -10,15 +9,7 @@ import java.util.List;
 /**
  * Created by aichaellee on 2018/12/31.
  */
-public interface TeachersMapper {
-
-    /**
-     * 根据用户名得到用户信息
-     * @param username
-     * @return
-     */
-    TblTeacherBase loadUserByUsername(String username);
-    TblTeacherBase loadUserByMobile(String mobile);
+public interface UserAndRoleMapper {
 
 
     /**
@@ -26,13 +17,8 @@ public interface TeachersMapper {
      * @param TID
      * @return
      */
-    List<Role> getRolesByTeacherId(Long TID);
+    List<Role> getRolesByUserId(Long TID);
 
-    /**
-     * 查看当前的所有用户
-     * @return
-     */
-    List<TblTeacherBase> getAllUsers();
 
 
     /**
@@ -51,7 +37,6 @@ public interface TeachersMapper {
 
     int updateUserInfo(UserInfoUpdateForm userInfoUpdateForm);
 
-    int updatePassword(TblTeacherBase user);
 
 
 }

@@ -6,8 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.zeus.common.UserTypeEnum;
 
 /**
  * @author: lizhizhong
@@ -18,10 +16,7 @@ import org.zeus.common.UserTypeEnum;
 public class SecurityMobileUserDetailService implements UserDetailsService{
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    TeacherUserDetailService teacherUserDetailService;
+    UserDetailService userDetailService;
 
 
 
@@ -31,7 +26,7 @@ public class SecurityMobileUserDetailService implements UserDetailsService{
     public UserDetails loadUserByUsername(String mobile) throws UsernameNotFoundException {
 
         System.out.println("mobile phone is :"+mobile);
-        return teacherUserDetailService.loadUserByMobile(mobile);
+        return userDetailService.loadUserByMobile(mobile);
 
 
     }

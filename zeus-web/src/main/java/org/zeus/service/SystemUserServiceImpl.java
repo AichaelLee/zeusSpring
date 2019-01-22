@@ -1,7 +1,7 @@
 package org.zeus.service;
 
 import org.zeus.common.ServerResponse;
-import org.zeus.dmsMapper.TeachersMapper;
+import org.zeus.dmsMapper.UserAndRoleMapper;
 import org.zeus.dto.UserRegister;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SystemUserServiceImpl implements SystemUserService {
 
     @Autowired
-    TeachersMapper teachersMapper;
+    UserAndRoleMapper teachersMapper;
 
     @Override
     public ServerResponse<Integer> addUser(UserRegister user) {

@@ -5,346 +5,17 @@
  Source Server Type    : MySQL
  Source Server Version : 50724
  Source Host           : localhost:3306
- Source Schema         : dms
+ Source Schema         : zeus
 
  Target Server Type    : MySQL
  Target Server Version : 50724
  File Encoding         : 65001
 
- Date: 22/01/2019 14:10:57
+ Date: 22/01/2019 15:34:17
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for flow_attr
--- ----------------------------
-DROP TABLE IF EXISTS `flow_attr`;
-CREATE TABLE `flow_attr`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `attr_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `max_length` double NULL DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `check_js` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_de_model
--- ----------------------------
-DROP TABLE IF EXISTS `flow_de_model`;
-CREATE TABLE `flow_de_model`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `name` varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `model_key` varchar(400) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `model_comment` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `created` datetime(6) NULL DEFAULT NULL,
-  `created_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `last_updated` datetime(6) NULL DEFAULT NULL,
-  `last_updated_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `version` int(11) NULL DEFAULT NULL,
-  `model_editor_json` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
-  `thumbnail` longblob NULL,
-  `model_type` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_proc_mod_created`(`created_by`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_form
--- ----------------------------
-DROP TABLE IF EXISTS `flow_form`;
-CREATE TABLE `flow_form`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `html_form` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `proc_def_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 297509 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of flow_form
--- ----------------------------
-INSERT INTO `flow_form` VALUES (297508, '立项审批流程', '立项材料准备->资格审核->立项初审->立项评审->结束', '1', '2019-01-16 17:25:49', NULL, 'proposal_process:');
-
--- ----------------------------
--- Table structure for flow_form_attr
--- ----------------------------
-DROP TABLE IF EXISTS `flow_form_attr`;
-CREATE TABLE `flow_form_attr`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `form_id` int(11) NULL DEFAULT NULL,
-  `attr_id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_form_content
--- ----------------------------
-DROP TABLE IF EXISTS `flow_form_content`;
-CREATE TABLE `flow_form_content`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `form_id` int(11) NULL DEFAULT NULL,
-  `attr_id` int(11) NULL DEFAULT NULL,
-  `attr_value` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `operationLog_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `operation_id` int(11) NULL DEFAULT NULL,
-  `project_id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_hi_taskinst
--- ----------------------------
-DROP TABLE IF EXISTS `flow_hi_taskinst`;
-CREATE TABLE `flow_hi_taskinst`  (
-  `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '流程定义id',
-  `TASK_DEF_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PARENT_TASK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `OWNER_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `ASSIGNEE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `START_TIME_` datetime(3) NOT NULL,
-  `CLAIM_TIME_` datetime(3) NULL DEFAULT NULL,
-  `END_TIME_` datetime(3) NULL DEFAULT NULL,
-  `DURATION_` bigint(20) NULL DEFAULT NULL,
-  `DELETE_REASON_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PRIORITY_` int(11) NULL DEFAULT NULL,
-  `DUE_DATE_` datetime(3) NULL DEFAULT NULL,
-  `FORM_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
-  PRIMARY KEY (`ID_`) USING BTREE,
-  INDEX `ACT_IDX_HI_TASK_INST_PROCINST`(`PROC_INST_ID_`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_re_procdef
--- ----------------------------
-DROP TABLE IF EXISTS `flow_re_procdef`;
-CREATE TABLE `flow_re_procdef`  (
-  `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
-  `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `VERSION_` int(11) NOT NULL,
-  `DEPLOYMENT_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `RESOURCE_NAME_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `DGRM_RESOURCE_NAME_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `HAS_START_FORM_KEY_` tinyint(4) NULL DEFAULT NULL,
-  `HAS_GRAPHICAL_NOTATION_` tinyint(4) NULL DEFAULT NULL,
-  `SUSPENSION_STATE_` int(11) NULL DEFAULT NULL,
-  `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
-  `ENGINE_VERSION_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  PRIMARY KEY (`ID_`) USING BTREE,
-  UNIQUE INDEX `ACT_UNIQ_PROCDEF`(`KEY_`, `VERSION_`, `TENANT_ID_`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_ru_execution
--- ----------------------------
-DROP TABLE IF EXISTS `flow_ru_execution`;
-CREATE TABLE `flow_ru_execution`  (
-  `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `BUSINESS_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PARENT_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `SUPER_EXEC_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `ROOT_PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `ACT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `IS_ACTIVE_` tinyint(4) NULL DEFAULT NULL,
-  `IS_CONCURRENT_` tinyint(4) NULL DEFAULT NULL,
-  `IS_SCOPE_` tinyint(4) NULL DEFAULT NULL,
-  `IS_EVENT_SCOPE_` tinyint(4) NULL DEFAULT NULL,
-  `IS_MI_ROOT_` tinyint(4) NULL DEFAULT NULL,
-  `SUSPENSION_STATE_` int(11) NULL DEFAULT NULL,
-  `CACHED_ENT_STATE_` int(11) NULL DEFAULT NULL,
-  `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
-  `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `START_TIME_` datetime(3) NULL DEFAULT NULL,
-  `START_USER_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `LOCK_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `IS_COUNT_ENABLED_` tinyint(4) NULL DEFAULT NULL,
-  `EVT_SUBSCR_COUNT_` int(11) NULL DEFAULT NULL,
-  `TASK_COUNT_` int(11) NULL DEFAULT NULL,
-  `JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `TIMER_JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `SUSP_JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `DEADLETTER_JOB_COUNT_` int(11) NULL DEFAULT NULL,
-  `VAR_COUNT_` int(11) NULL DEFAULT NULL,
-  `ID_LINK_COUNT_` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`ID_`) USING BTREE,
-  INDEX `ACT_IDX_EXEC_BUSKEY`(`BUSINESS_KEY_`) USING BTREE,
-  INDEX `ACT_IDC_EXEC_ROOT`(`ROOT_PROC_INST_ID_`) USING BTREE,
-  INDEX `ACT_FK_EXE_PROCINST`(`PROC_INST_ID_`) USING BTREE,
-  INDEX `ACT_FK_EXE_PARENT`(`PARENT_ID_`) USING BTREE,
-  INDEX `ACT_FK_EXE_SUPER`(`SUPER_EXEC_`) USING BTREE,
-  INDEX `ACT_FK_EXE_PROCDEF`(`PROC_DEF_ID_`) USING BTREE,
-  CONSTRAINT `ACT_FK_EXE_PARENT` FOREIGN KEY (`PARENT_ID_`) REFERENCES `flow_ru_execution` (`ID_`) ON DELETE CASCADE ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_EXE_PROCDEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `flow_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_EXE_PROCINST` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `flow_ru_execution` (`ID_`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ACT_FK_EXE_SUPER` FOREIGN KEY (`SUPER_EXEC_`) REFERENCES `flow_ru_execution` (`ID_`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_ru_identitylink
--- ----------------------------
-DROP TABLE IF EXISTS `flow_ru_identitylink`;
-CREATE TABLE `flow_ru_identitylink`  (
-  `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
-  `GROUP_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `TYPE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `USER_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `TASK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  PRIMARY KEY (`ID_`) USING BTREE,
-  INDEX `ACT_IDX_IDENT_LNK_USER`(`USER_ID_`) USING BTREE,
-  INDEX `ACT_IDX_IDENT_LNK_GROUP`(`GROUP_ID_`) USING BTREE,
-  INDEX `ACT_IDX_ATHRZ_PROCEDEF`(`PROC_DEF_ID_`) USING BTREE,
-  INDEX `ACT_FK_TSKASS_TASK`(`TASK_ID_`) USING BTREE,
-  INDEX `ACT_FK_IDL_PROCINST`(`PROC_INST_ID_`) USING BTREE,
-  CONSTRAINT `ACT_FK_ATHRZ_PROCEDEF` FOREIGN KEY (`PROC_DEF_ID_`) REFERENCES `flow_re_procdef` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_IDL_PROCINST` FOREIGN KEY (`PROC_INST_ID_`) REFERENCES `flow_ru_execution` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `ACT_FK_TSKASS_TASK` FOREIGN KEY (`TASK_ID_`) REFERENCES `flow_ru_task` (`ID_`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Table structure for flow_ru_task
--- ----------------------------
-DROP TABLE IF EXISTS `flow_ru_task`;
-CREATE TABLE `flow_ru_task`  (
-  `ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `REV_` int(11) NULL DEFAULT NULL,
-  `EXECUTION_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PROC_INST_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PROC_DEF_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `NAME_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PARENT_TASK_ID_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `DESCRIPTION_` varchar(4000) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `TASK_DEF_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `OWNER_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `ASSIGNEE_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `DELEGATION_` varchar(64) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `PRIORITY_` int(11) NULL DEFAULT NULL,
-  `CREATE_TIME_` timestamp(3) NULL DEFAULT NULL,
-  `DUE_DATE_` datetime(3) NULL DEFAULT NULL,
-  `CATEGORY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `SUSPENSION_STATE_` int(11) NULL DEFAULT NULL,
-  `TENANT_ID_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT '',
-  `FORM_KEY_` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `CLAIM_TIME_` datetime(3) NULL DEFAULT NULL,
-  PRIMARY KEY (`ID_`) USING BTREE,
-  INDEX `ACT_IDX_TASK_CREATE`(`CREATE_TIME_`) USING BTREE,
-  INDEX `ACT_FK_TASK_EXE`(`EXECUTION_ID_`) USING BTREE,
-  INDEX `ACT_FK_TASK_PROCINST`(`PROC_INST_ID_`) USING BTREE,
-  INDEX `ACT_FK_TASK_PROCDEF`(`PROC_DEF_ID_`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of flow_ru_task
--- ----------------------------
-INSERT INTO `flow_ru_task` VALUES ('297528', 1, '297510', '297508', 'proposal_process:', '立项材料审批', '', '', 'sid-614299F0-3C68-497E-84E6-E7C48C2E2F3C', '', 'lizhizhong', '', 50, '2019-01-09 13:28:26.000', '2019-01-16 17:37:18.000', '', 1, '', 'profession_review', '2019-01-16 17:37:37.000');
-INSERT INTO `flow_ru_task` VALUES ('297529', 1, '297511', '293453', 'proposal_process:', '资格审核', '', '', 'sid-614299F0-3C68-497E-84E6-E7C48C2E2F3C', '', 'ROLE_ACADMIN', '', 50, '2019-01-09 13:28:26.000', '2019-01-16 17:37:18.000', '', 1, '', 'profession_review', '2019-01-16 17:37:37.000');
-
--- ----------------------------
--- Table structure for flow_step
--- ----------------------------
-DROP TABLE IF EXISTS `flow_step`;
-CREATE TABLE `flow_step`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `form_id` int(11) NULL DEFAULT NULL,
-  `role_id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10006 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of flow_step
--- ----------------------------
-INSERT INTO `flow_step` VALUES (10001, '立项材料准备', '哈哈，谁都别拦我，这个节点我要指派给发起人', 297508, NULL);
-INSERT INTO `flow_step` VALUES (10002, '资格审核', '嗯嗯，这个节点是院长审核，如果院长通过了就指派给特定专家', 297508, 1);
-INSERT INTO `flow_step` VALUES (10003, '立项初审', '这个具体指派人呢，应该是院长指定的院内专家去干这件事', 297508, 2);
-INSERT INTO `flow_step` VALUES (10004, '立项评审', '这个指派人呢，应该也是，但是别忘了啊亲们，没准有的学校就是逮住谁就谁审批，要留意点！', 297508, 3);
-INSERT INTO `flow_step` VALUES (10005, '结束', '好了，立项审批流程的完美结束', 297508, NULL);
-
--- ----------------------------
--- Table structure for flow_step_check_state
--- ----------------------------
-DROP TABLE IF EXISTS `flow_step_check_state`;
-CREATE TABLE `flow_step_check_state`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `step_id` int(11) NULL DEFAULT NULL,
-  `state` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `isEnd` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `operationlog_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `operation_id` int(11) NULL DEFAULT NULL,
-  `auditor` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `project_id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of flow_step_check_state
--- ----------------------------
-INSERT INTO `flow_step_check_state` VALUES (1, 1, '1', '2019-01-24 17:24:45', NULL, NULL, NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for flow_step_rule
--- ----------------------------
-DROP TABLE IF EXISTS `flow_step_rule`;
-CREATE TABLE `flow_step_rule`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `step_id` int(11) NULL DEFAULT NULL,
-  `attr_id` int(11) NULL DEFAULT NULL,
-  `operators` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `threshold` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  `next_step` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of flow_step_rule
--- ----------------------------
-INSERT INTO `flow_step_rule` VALUES (1, 10001, NULL, '发起人自己干', NULL, '10002');
-INSERT INTO `flow_step_rule` VALUES (2, 10002, NULL, '额，刚才那个表都说了，院管理员干，但是这是可以自定义的哦', NULL, '10003');
-INSERT INTO `flow_step_rule` VALUES (3, 10003, NULL, '院专家', NULL, '10004');
-INSERT INTO `flow_step_rule` VALUES (4, 10004, NULL, '专家', NULL, '10005');
-INSERT INTO `flow_step_rule` VALUES (5, 10005, NULL, '下一步0就是结束啦！', NULL, '0');
-
--- ----------------------------
--- Table structure for hibernate_sequences
--- ----------------------------
-DROP TABLE IF EXISTS `hibernate_sequences`;
-CREATE TABLE `hibernate_sequences`  (
-  `sequence_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `sequence_next_hi_value` int(11) NULL DEFAULT NULL
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of hibernate_sequences
--- ----------------------------
-INSERT INTO `hibernate_sequences` VALUES ('ACT_WO_COMMENTS', 1);
 
 -- ----------------------------
 -- Table structure for jg_log_err
@@ -369,55 +40,6 @@ CREATE TABLE `jg_log_err`  (
 -- ----------------------------
 INSERT INTO `jg_log_err` VALUES (1, '2019-01-22 13:11:41', 'XNIO-2 task-27', NULL, 'error', 'net.cnki.controller.system.SystemControllertestLog', 160, '好嘛，居然出错了', '[Ljava.lang.StackTraceElement;@baaedb9', NULL);
 INSERT INTO `jg_log_err` VALUES (2, '2019-01-22 13:13:52', 'XNIO-2 task-1', NULL, 'error', 'net.cnki.controller.system.SystemControllertestLog.', 160, '好嘛，居然出错了', 'CnkiBizException', NULL);
-
--- ----------------------------
--- Table structure for managers
--- ----------------------------
-DROP TABLE IF EXISTS `managers`;
-CREATE TABLE `managers`  (
-  `MID` int(11) NOT NULL,
-  `username` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名',
-  `mobile` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `school_number` int(11) NOT NULL COMMENT '学校编号',
-  `servers_number` int(11) NOT NULL COMMENT '服务器编号',
-  `login_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登陆ip',
-  `authority` int(11) NOT NULL COMMENT '权限',
-  `status` int(11) NOT NULL COMMENT '状态',
-  `expire_date` datetime(0) NULL DEFAULT NULL COMMENT '到期时间',
-  `login_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登陆唯一标识',
-  `prefix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '前缀',
-  `verify_username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检测用户名',
-  `verify_password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检测密码',
-  `token` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '令牌',
-  `db_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库服务器ip\r\n',
-  `db_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '数据库名称',
-  `verify_username2` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检测用户名2',
-  `verify_password2` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检测密码2',
-  `verify_address2` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检测地址2',
-  `createtime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `lastmodifytime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '最后编辑时间',
-  `display_scname` int(11) NULL DEFAULT NULL COMMENT '是否显示学校名称',
-  `open_scrivener` int(11) NOT NULL COMMENT '是否开通写作助手',
-  `open_scrivener_time` datetime(0) NULL DEFAULT NULL COMMENT '开通写作助手时间',
-  `group_number` int(11) NOT NULL COMMENT '组号',
-  `sys_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '系统名称',
-  `export_group` int(11) NOT NULL COMMENT '导出组号',
-  `admin_sms` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '管理员短信功能',
-  `teacher_sms` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '教师短信功能',
-  `verify_upload` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '检测上传功能',
-  `stu_batch_import` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学生批量导入功能',
-  `import_stu_max` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '学生导入最大数',
-  `forgot_password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '找回密码功能',
-  PRIMARY KEY (`MID`, `username`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of managers
--- ----------------------------
-INSERT INTO `managers` VALUES (6, 'admin', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', '李院长', '12312312333', 'mail@sina.com', 11, 19, '192.168,22,19', 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, '1.1.1.1', 'beida', NULL, NULL, NULL, '2018-12-04 08:53:09', '2018-12-30 19:48:29', NULL, 1, NULL, 1, '1', 1, '1', '1', '1', '11', '11', '111');
 
 -- ----------------------------
 -- Table structure for menu
@@ -603,7 +225,7 @@ CREATE TABLE `sys_log`  (
   `result` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
   `school_num` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2127 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2137 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_log
@@ -2545,6 +2167,16 @@ INSERT INTO `sys_log` VALUES (2123, '流程操作', '获取当前用户菜单', 
 INSERT INTO `sys_log` VALUES (2124, '流程操作', '获取当前用户菜单', '2019-01-22 14:10:05', '我是管理員啊', NULL, '研发经理,部门经理', '192.168.25.205', NULL, NULL);
 INSERT INTO `sys_log` VALUES (2125, '流程操作', '获取当前用户菜单', '2019-01-22 14:10:11', '我是管理員啊', NULL, '研发经理,部门经理', '192.168.25.205', NULL, NULL);
 INSERT INTO `sys_log` VALUES (2126, '流程操作', '获取当前用户菜单', '2019-01-22 14:10:19', '我是管理員啊', NULL, '研发经理,部门经理', '192.168.25.205', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2127, '登录操作', '我是管理員啊 用户登录成功', '2019-01-22 14:16:29', '我是管理員啊', NULL, '研发经理,部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2128, '登录操作', '我是管理員啊 用户登录成功', '2019-01-22 14:30:56', '我是管理員啊', NULL, '研发经理,部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2129, '登录操作', 'admin 用户登录成功', '2019-01-22 14:45:16', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2130, '登录操作', 'admin 用户登录成功', '2019-01-22 14:58:09', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2131, '登录操作', 'admin 用户登录成功', '2019-01-22 15:05:10', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2132, '登录操作', 'admin 用户登录成功', '2019-01-22 15:05:26', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2133, '登录操作', 'admin 用户登录成功', '2019-01-22 15:09:39', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2134, '登录操作', 'admin 用户登录成功', '2019-01-22 15:30:37', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2135, '登录操作', 'admin 用户登录成功', '2019-01-22 15:30:46', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
+INSERT INTO `sys_log` VALUES (2136, '登录操作', 'admin 用户登录成功', '2019-01-22 15:33:37', 'admin', NULL, '部门经理', '127.0.0.1', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for sys_school
@@ -2583,85 +2215,31 @@ INSERT INTO `sys_system` VALUES (1, 1, '\n“中国知网”教学改革研究�
 INSERT INTO `sys_system` VALUES (2, NULL, NULL, NULL);
 
 -- ----------------------------
--- Table structure for tbl_plan
+-- Table structure for user
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_plan`;
-CREATE TABLE `tbl_plan`  (
-  `plan_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '学年id\r\n',
-  `school_num` int(11) NULL DEFAULT NULL COMMENT '学校编号',
-  `school_year` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学年',
-  `default` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否默认学年',
-  `opentimenode` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否开启时间节点',
-  `allowset` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '是否允许学院设置',
-  `createtime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `begintime` datetime(0) NULL DEFAULT NULL COMMENT '学年开始时间',
-  `endtime` datetime(0) NULL DEFAULT NULL COMMENT '学年结束时间',
-  `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  PRIMARY KEY (`plan_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of tbl_plan
--- ----------------------------
-INSERT INTO `tbl_plan` VALUES (1, 1001, '2015-2016', '1', '1', '1', '2018-11-21 09:11:51', '2018-06-21 09:11:29', '2019-06-21 09:11:38', '2018-11-30 13:49:54');
-INSERT INTO `tbl_plan` VALUES (2, 1001, '2016-2017', '1', '1', '1', '2018-11-21 09:11:51', '2018-06-21 09:11:29', '2019-06-21 09:11:38', '2018-11-30 13:50:00');
-INSERT INTO `tbl_plan` VALUES (3, 1001, '2017-2018', '1', '1', '1', '2018-11-21 09:11:51', '2018-06-21 09:11:29', '2019-06-21 09:11:38', '2018-11-30 13:50:00');
-INSERT INTO `tbl_plan` VALUES (4, 1001, '2018-2019', '1', '1', '1', '2018-11-21 09:11:51', '2018-06-21 09:11:29', '2019-06-21 09:11:38', '2018-11-30 13:50:00');
-
--- ----------------------------
--- Table structure for tbl_teacher_base
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_teacher_base`;
-CREATE TABLE `tbl_teacher_base`  (
-  `TID` int(11) NOT NULL AUTO_INCREMENT COMMENT 'sid',
-  `uername` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登录名',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '登陆密码',
-  `school_num` int(11) NULL DEFAULT NULL COMMENT '学校编号',
-  `teacher_num` int(11) NULL DEFAULT NULL COMMENT '教师编号',
-  `teacher_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '教师姓名',
-  `academic_degree` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学位',
-  `graduated_university` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '毕业院校',
-  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '职称',
-  `education` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '学历',
-  `sex` tinyint(255) NULL DEFAULT NULL COMMENT '性别',
-  `age` int(11) NULL DEFAULT NULL COMMENT '年龄',
-  `mobile` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电话',
-  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '电子邮箱',
-  `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态',
-  `login_token` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登陆标识',
-  `create_time` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `CID` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'cid',
-  `APP_KEY` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'app密令',
-  `updatetime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  `plan_id` int(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`TID`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of tbl_teacher_base
--- ----------------------------
-INSERT INTO `tbl_teacher_base` VALUES (3, 'uniAdmin', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', 1, 1, '李某某', '博士', '北京大学', '教授', '博士', 1, 49, '123123123123', 'limoumou@sina.com', 1, 'asdfadsf', '2018-12-03 17:11:44', NULL, NULL, '2019-01-17 10:24:56', 4);
-INSERT INTO `tbl_teacher_base` VALUES (4, 'lizhizhong', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', 1, 1, '阿斯顿发生的大师傅', '博士', '北京大学', '教授', '博士', 1, 49, '123123111114', 'lizhizhong@sina.com', 1, 'asdfadsf', '2018-12-03 17:11:44', '', '', '2019-01-18 09:34:39', 4);
-INSERT INTO `tbl_teacher_base` VALUES (5, 'dev', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', 1, 1, '我是开发啊', '博士', '北京大学', '教授', '博士', 1, 49, '123123111115', 'zhangsan@sina.com', 1, 'asdfadsf', '2018-12-03 17:11:44', '', '', '2019-01-18 10:03:11', 4);
-INSERT INTO `tbl_teacher_base` VALUES (6, 'admin', '$2a$10$dkfC/5xDiC/l9dqnyQVrdu72TUj4o49tSpmIe0xoKwjpv8hTDCHrO', 1, 1, '我是管理員啊', '博士', '北京大学', '教授', '博士', 1, 49, '123123111112', 'wangwu@sina.com', 1, 'asdfadsf', '2018-12-03 17:11:44', '', '', '2019-01-18 10:03:00', 4);
-INSERT INTO `tbl_teacher_base` VALUES (7, 'zhaoliu', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', 1, 1, '赵六', '博士', '北京大学', '教授', '博士', 1, 49, '123123111114', 'zhaoliu@sina.com', 1, 'asdfadsf', '2018-12-03 17:11:44', '', '', '2019-01-15 16:40:11', 4);
-INSERT INTO `tbl_teacher_base` VALUES (8, 'cus', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', 1, 1, '我是客服啊啊', NULL, NULL, NULL, '博士', 1, 49, '123123111111', 'zhouqi@sina.com', 1, 'asdfadsf', '2018-12-03 17:11:44', '', '', '2019-01-18 10:02:53', 4);
-INSERT INTO `tbl_teacher_base` VALUES (13, 'test', '$2a$10$A6uaRwrmg8eNf4Es7A62luOcxWTMogwq.USEUtUVnppWpJFuvaoU2', NULL, NULL, 'testsetset', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2019-01-04 15:42:25', NULL, NULL, '2019-01-04 15:42:25', NULL);
-
--- ----------------------------
--- Table structure for tran_teacher_resume
--- ----------------------------
-DROP TABLE IF EXISTS `tran_teacher_resume`;
-CREATE TABLE `tran_teacher_resume`  (
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `teacher_id` int(11) NULL DEFAULT NULL COMMENT '教师ID',
-  `school` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '所在单位',
-  `teache_object` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '授课对象',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时间',
-  `begin_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
-  `course_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '课程名称',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '姓名',
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '邮箱',
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '密码',
+  `last_login` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '上次登录时间',
+  `created_time` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '创建时间',
+  `account_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '账号状态',
+  `photo` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '头像',
+  `deletedflag` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '逻辑删除Flg',
+  `mobile` int(11) NULL DEFAULT NULL COMMENT '手机号',
+  `update_time` datetime(0) NULL DEFAULT NULL COMMENT '信息最后更新时间',
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '用户名',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user
+-- ----------------------------
+INSERT INTO `user` VALUES (1, 'test', 'test@sina.com', '$2a$10$dkfC/5xDiC/l9dqnyQVrdu72TUj4o49tSpmIe0xoKwjpv8hTDCHrO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (2, 'dev', 'dev@sinal.com', '$2a$10$dkfC/5xDiC/l9dqnyQVrdu72TUj4o49tSpmIe0xoKwjpv8hTDCHrO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES (3, 'admin', 'admin@sina.com', '$2a$10$ySG2lkvjFHY5O0./CPIE1OI8VJsuKYEzOYzqIa7AJR6sEgSzUFOAm', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_role

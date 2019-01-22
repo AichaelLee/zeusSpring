@@ -21,10 +21,8 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
-import org.zeus.bean.Managers;
 import org.zeus.bean.RespBean;
-import org.zeus.bean.TblTeacherBase;
+import org.zeus.bean.User;
 import org.zeus.common.CustomUserTypeAuthenticationFilter;
 import org.zeus.common.SmsCodeAuthenticationSecurityConfig;
 import org.zeus.common.fw.LogType;
@@ -34,8 +32,6 @@ import org.zeus.common.validator.ValidateCodeSecurityConfig;
 import org.zeus.dmsMapper.SysLogMapper;
 import org.zeus.entity.SysLog;
 import org.zeus.service.SecurityUserDetailService;
-
-import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -163,24 +159,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                             Authentication auth) throws IOException {
             resp.setContentType("application/json;charset=utf-8");
 
-            RespBean respBean = null;
+            User user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+            RespBean  respBean =RespBean.ok("登录成功!",  user);
 
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(principal instanceof Managers){
-                respBean =RespBean.ok("登录成功!",  ((Managers) principal));
-            }else if(principal instanceof TblTeacherBase){
-                respBean =RespBean.ok("登录成功!",  ((TblTeacherBase) principal));
-            }
             // 登录日志记录
             // 数据库中插入操作记录
             SysLog sysLog = new SysLog();
-            sysLog.setOperatorRole(((TblTeacherBase) principal).getRoles()
+            sysLog.setOperatorRole(user.getRoles()
                     .stream().map(
                             o->o.getNameZh()).
                             collect(Collectors.joining(",")));
             sysLog.setLogType(LogType.LOGIN.getDesc());
-            sysLog.setOperator(((TblTeacherBase) principal).getTeacherName());
-            sysLog.setLogContent(String.format("%s 用户登录成功",((TblTeacherBase) principal).getTeacherName()));
+            sysLog.setOperator(user.getName());
+            sysLog.setLogContent(String.format("%s 用户登录成功",user.getName()));
             sysLog.setOperationTime(new Date());
             sysLog.setIpAddress(ipInfoUtil.getIpAddr(req));
             sysLogMapper.insert(sysLog);

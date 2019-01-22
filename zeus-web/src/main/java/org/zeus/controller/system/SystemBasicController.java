@@ -11,7 +11,6 @@ import org.zeus.common.UserUtils;
 import org.zeus.common.fw.LogType;
 import org.zeus.common.fw.annotation.SystemLog;
 import org.zeus.dmsMapper.SysLogMapper;
-import org.zeus.dmsMapper.TblPlanMapper;
 import org.zeus.dto.MenuUpdateForm;
 import org.zeus.dto.SysLogSearchForm;
 import org.zeus.entity.SysLog;
@@ -45,12 +44,6 @@ public class SystemBasicController {
     MenuService menuService;
     @Autowired
     MenuRoleService menuRoleService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    TblPlanMapper tblPlanMapper;
 
     /**切换用户选择的角色**/
     @Autowired
@@ -86,17 +79,6 @@ public class SystemBasicController {
     @SystemLog(type = LogType.AUDITING,description = "选择角色")
     public RespBean chooseRole(@AuthenticationPrincipal Object principal, String choosedRole) throws Exception{
 
-        if(principal instanceof Managers){
-
-            log.info("管理员用户之前的全部角色为{}",((Managers) principal).getAuthorities().toString());
-
-            // 根据需求决定
-            return RespBean.error("管理员不需要选择角色!");
-
-        }else if(principal instanceof TblTeacherBase){
-            log.info("教师角色为:{}",((TblTeacherBase) principal).getAuthorities().toString());
-
-        }
 
         log.info("用户选择的角色为:{}",choosedRole);
 
@@ -118,56 +100,6 @@ public class SystemBasicController {
         return  RespBean.ok("", UserUtils.getCurrentUser());
     }
 
-    /**
-     * 当用户点击右上角的切换按钮的时候
-     * @param details
-     * @return
-     * @throws Exception
-     */
-    @GetMapping(value = "/switchRole")
-    public List<Role> switchRole(@AuthenticationPrincipal Managers details) throws Exception{
-
-        log.info("此时用户权限为{}",details.getAuthorities().toString());
-
-        // 查询数据库,得到用户初始的所有角色返回给前端
-
-        List<Role> roles = userService.getRolesByHrId(details.getId());
-
-        return roles;
-
-    }
-
-    /**
-     * 获得该学校的所有学年
-     * @return
-     */
-    @GetMapping(value="/getPlans")
-//    @Cacheable("getPlans")
-    public RespBean getPlans(){
-        TblPlanExample example = new TblPlanExample();
-        example.createCriteria().andPlanIdIsNotNull();
-        List<TblPlan> plans = tblPlanMapper.selectByExample(example);
-        log.info("学年总数为:{}",plans.size());
-
-        return RespBean.ok("",plans);
-    }
-
-    /**
-     * 用户选择完角色后,进入主页前重新获得权限,此时用户只有一个权限
-     *
-     * TODO 后续或许会加上一个Choose_Role 和 Choose_Role_OK 的这两个权限
-     *
-     * **/
-    @Deprecated // 得到当前选择的角色,在dms中暂时还用不到
-    @GetMapping(value="/getSwitchAuth")
-    public RespBean getSwitchAuth(@AuthenticationPrincipal Object principal){
-        RespBean respBean = null;
-        if(principal instanceof Managers){
-            respBean =RespBean.ok("选择角色成功!",  ((Managers) principal));;
-        }
-        return respBean;
-
-    }
 
     /**
      * 删除角色
