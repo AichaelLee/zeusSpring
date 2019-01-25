@@ -11,6 +11,23 @@
       <property name="beginningDelimiter" value="&quot;"/>
       <property name="endingDelimiter" value="&quot;"/>
       <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+      <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+      <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin">
+
+        <!-- enable annotations -->
+        <property name="builder" value="true"/>
+        <!-- annotation's option(boolean) -->
+        <property name="builder.fluent" value="true"/>
+        <!-- annotation's option(String) -->
+        <property name="builder.builderMethodName" value="myBuilder"/>
+
+        <property name="accessors" value="true"/>
+        <!-- annotation's option(array of String) -->
+        <property name="accessors.prefix" value="m_, _"/>
+
+        <!-- disable annotations -->
+        <property name="allArgsConstructor" value="false"/>
+      </plugin>
       <commentGenerator>
         <property name="suppressAllComments" value="true" />
       </commentGenerator>
@@ -38,9 +55,6 @@
         </javaClientGenerator>
 
         <table schema="public" tableName="%" >
-
-          <columnOverride column="first" javaType="String[]" jdbcType="OTHER" typeHandler="com.manniwood.mmpt.typehandlers.TextArrayTypeHandler" />
-          <columnOverride column="second" javaType="String" jdbcType="OTHER" typeHandler="com.manniwood.mmpt.typehandlers.JSONTypeHandler"/>
         </table>
 
     </context>
